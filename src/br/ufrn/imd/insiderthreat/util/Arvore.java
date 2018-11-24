@@ -6,16 +6,16 @@ import java.util.ArrayList;
 public abstract class Arvore<T> {
 	
 	private T valor;
-	private List<Arvore<T>> children;
+	private List<Arvore<T>> filhos;
 	
 	public Arvore(T valor) {
 		this.valor = valor;
-		children = new ArrayList<Arvore<T>>();
+		filhos = new ArrayList<Arvore<T>>();
 	}
 	
 	public Arvore(T valor, List<Arvore<T>> children) {
 		this.valor = valor;
-		this.children = children;
+		this.filhos = children;
 	}
 
 	public Object getValor() {
@@ -23,6 +23,10 @@ public abstract class Arvore<T> {
 	}
 	
 	public void adicionarNo(Arvore<T> value) {
-		children.add(value);
+		filhos.add(value);
+	}
+	
+	public Arvore<T> getNo(int index) {
+		return filhos.get(index);
 	}
 }
