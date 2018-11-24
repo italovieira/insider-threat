@@ -5,7 +5,9 @@ import br.ufrn.imd.insiderthreat.util.ValorNo;
 public class Usuario implements ValorNo {
 	String id;
 	String nome;
-	String cpf;
+	String dominio;
+	String email;
+	String papel;
 	
 	public String getId() {
 		return id;
@@ -23,11 +25,27 @@ public class Usuario implements ValorNo {
 		this.nome = nome;
 	}
 
-	public String getCpf() {
-		return cpf;
+	public String getDominio() {
+		return dominio;
 	}
 
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
+	public void setDominio(String dominio) {
+		this.dominio = dominio;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPapel() {
+		return papel;
+	}
+
+	public void setPapel(String papel) {
+		this.papel = papel;
 	}
 }

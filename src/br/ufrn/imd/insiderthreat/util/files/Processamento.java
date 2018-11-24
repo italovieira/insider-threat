@@ -6,21 +6,25 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.ufrn.imd.insiderthreat.model.Tipos;
 import br.ufrn.imd.insiderthreat.util.ValorNo;
 
 public abstract class Processamento {
-	private String file; 
+	private String file;
+	
+	public Processamento(String file) {
+		this.file = file; 
+	} 
 			
 	protected abstract ValorNo processarLinha(String linha);
 	
 	public List<ValorNo> processarArquivo() {
+		ArrayList<ValorNo> valores = new ArrayList<ValorNo>();
 		BufferedReader reader = null;
+				
 		try {
-			// lembrete: fechar
+			// TODO: lembrete: fechar reader
 			reader = new BufferedReader(new FileReader(file));
 		
-			ArrayList<ValorNo> valores = new ArrayList<ValorNo>();
 			String linha = reader.readLine();
 			
 			while (linha != null) {
@@ -29,9 +33,6 @@ public abstract class Processamento {
 				
 				linha = reader.readLine();				
 			}
-			
-			return valores;
-			
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -42,6 +43,6 @@ public abstract class Processamento {
 			}
 		}
 		
-		return null;
+		return valores;
 	}
 }
