@@ -2,13 +2,15 @@ package br.ufrn.imd.insiderthreat.util;
 
 import java.util.List;
 
-public class ArvorePerfilUsuario extends Arvore<ValorNo> {
+import br.ufrn.imd.insiderthreat.model.Modelo;
 
-	public ArvorePerfilUsuario(ValorNo value) {
+public class ArvorePerfilUsuario extends Arvore<Modelo> {
+
+	public ArvorePerfilUsuario(Modelo value) {
 		super(value);
 	}
 	
-	public ArvorePerfilUsuario(ValorNo value, List<Arvore<ValorNo>> filhos) {
+	public ArvorePerfilUsuario(Modelo value, List<Arvore<Modelo>> filhos) {
 		super(value, filhos);
 	}
 }

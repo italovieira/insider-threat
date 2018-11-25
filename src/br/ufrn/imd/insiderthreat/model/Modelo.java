@@ -1,5 +1,4 @@
 package br.ufrn.imd.insiderthreat.model;
 
-public class Atributos implements Modelo {
-
+public interface Modelo {
 }
