@@ -4,11 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import br.ufrn.imd.insiderthreat.model.Dispositivo;
-import br.ufrn.imd.insiderthreat.model.Modelo;
-import br.ufrn.imd.insiderthreat.model.Modelo;
 
-public class ProcessamentoDispositivos extends Processamento {
-	private static final String FILE = "log/LDAP.csv";
+public class ProcessamentoDispositivos extends Processamento<Dispositivo> {
+	private static final String FILE = "log/device.csv";
 	private static final String DELIMITADOR = ",";
 	
 	public ProcessamentoDispositivos() {
@@ -34,7 +32,7 @@ public class ProcessamentoDispositivos extends Processamento {
 	}
 
 	@Override
-	protected Modelo converter(Map<String, String> map) {
+	protected Dispositivo converter(Map<String, String> map) {
 		Dispositivo dispositivo = new Dispositivo();
 		dispositivo.setId(map.get("id"));
 		dispositivo.setData(map.get("data"));
