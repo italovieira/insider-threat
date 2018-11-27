@@ -3,7 +3,7 @@ package br.ufrn.imd.insiderthreat.util;
 import java.util.List;
 import java.util.ArrayList;
 
-public class Arvore<T> {
+public abstract class Arvore<T> {
 	
 	private T valor;
 	private List<Arvore<T>> filhos;
@@ -13,20 +13,22 @@ public class Arvore<T> {
 		filhos = new ArrayList<Arvore<T>>();
 	}
 	
-	public Arvore(T valor, List<Arvore<T>> children) {
-		this.valor = valor;
-		this.filhos = children;
-	}
-
 	public Object getValor() {
 		return valor;
 	}
 	
-	public void adicionarNo(Arvore<T> value) {
+	// Adicionar um novo nó filho a essa árvore
+	public void adicionar(Arvore<T> value) {
 		filhos.add(value);
 	}
 	
-	public Arvore<T> getNo(int index) {
+	// Incluir uma lista de novos filhos a essa árvore
+	public void adicionar(List<Arvore<T>> filhos) {
+		this.filhos.addAll(filhos);
+	} 
+	
+	// Obter um nó filho a partir de um índice
+	public Arvore<T> get(int index) {
 		return filhos.get(index);
 	}
 }

@@ -11,14 +11,11 @@ import br.ufrn.imd.insiderthreat.processamento.Processamento;
 import br.ufrn.imd.insiderthreat.processamento.ProcessamentoDispositivos;
 import br.ufrn.imd.insiderthreat.processamento.ProcessamentoUsuarios;
 import br.ufrn.imd.insiderthreat.util.Arvore;
-import br.ufrn.imd.insiderthreat.util.ArvorePerfilUsuario;
+import br.ufrn.imd.insiderthreat.util.ArvoreModelo;
 
 public class Main {
 
 	public static void main(String[] args) {
-		Arvore<Modelo> a = new ArvorePerfilUsuario(new Usuario());
-		a.equals(null);
-		
 		//exemplo1();
 		//exemplo2();
 		exemplo3();
@@ -69,12 +66,13 @@ public class Main {
 			List<Usuario> usuarios = processamentoUsuarios.processarComFiltro(filtro);
 
 			//Cria uma lista com a arvore de usuários
-			ArrayList<Arvore<Usuario>> usuariosArvore = new ArrayList<Arvore<Usuario>>();
+			ArrayList<ArvoreModelo> usuariosArvore = new ArrayList<ArvoreModelo>();
 			for (Usuario usuario : usuarios){
-				Arvore<Usuario> arvoreUsuario = new Arvore<Usuario>(usuarios.get(0));
+				ArvoreModelo arvoreUsuario = new ArvoreModelo(usuario);
 				usuariosArvore.add(arvoreUsuario);
 			}
 
+			// TODO: remover
 			//System.out.println("Usuário: " + ((Usuario)arvoreUsuario.getValor()).getNome());
 
 			/*for (Usuario usuario : usuarios) {
