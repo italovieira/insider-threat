@@ -3,7 +3,7 @@ package br.ufrn.imd.insiderthreat.util;
 import java.util.List;
 import java.util.ArrayList;
 
-public abstract class Arvore<T> {
+public class Arvore<T> {
 	
 	private T valor;
 	private List<Arvore<T>> filhos;

@@ -3,7 +3,10 @@ package br.ufrn.imd.insiderthreat.model;
 public class Dispositivo implements Modelo {
 	private String id;
 	private String data;
+	private String usuario;
+	private String pc;
 	private String atividade;
+
 	public String getId() {
 		return id;
 	}
@@ -18,6 +21,15 @@ public class Dispositivo implements Modelo {
 	public void setData(String data) {
 		this.data = data;
 	}
+
+
+	public String getUsuario() {return usuario;}
+
+	public void setUsuario(String usuario) {this.usuario = usuario;}
+
+	public String getPc() {return pc;}
+
+	public void setPc(String pc) {this.pc = pc;}
 	
 	public String getAtividade() {
 		return atividade;

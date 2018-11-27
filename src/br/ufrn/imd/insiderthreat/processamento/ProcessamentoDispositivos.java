@@ -26,8 +26,10 @@ public class ProcessamentoDispositivos extends Processamento<Dispositivo> {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("id", atributos[0]);
 		map.put("data", atributos[1]);
-		map.put("atividade", atributos[2]);
-		
+		map.put("usuario", atributos[2]);
+		map.put("pc", atributos[3]);
+		map.put("atividade", atributos[4]);
+
 		return map;
 	}
 
@@ -36,6 +38,8 @@ public class ProcessamentoDispositivos extends Processamento<Dispositivo> {
 		Dispositivo dispositivo = new Dispositivo();
 		dispositivo.setId(map.get("id"));
 		dispositivo.setData(map.get("data"));
+		dispositivo.setUsuario(map.get("usuario"));
+		dispositivo.setPc(map.get("pc"));
 		dispositivo.setAtividade(map.get("atividade"));
 		
 		return dispositivo;
