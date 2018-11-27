@@ -31,4 +31,9 @@ public abstract class Arvore<T> {
 	public Arvore<T> get(int index) {
 		return filhos.get(index);
 	}
+
+	//Obter todos os nós filhos da árvore
+	public List<Arvore<T>> getFilhos() {
+		return filhos;
+	}
 }

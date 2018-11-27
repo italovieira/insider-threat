@@ -72,6 +72,11 @@ public class Main {
 				usuariosArvore.add(arvoreUsuario);
 			}
 
+			for(ArvoreModelo arvoreUsuario : usuariosArvore){
+				System.out.println(((Usuario)arvoreUsuario.getValor()).getNome());
+				processarDispositivosPC(arvoreUsuario);
+			}
+
 			// TODO: remover
 			//System.out.println("Usuário: " + ((Usuario)arvoreUsuario.getValor()).getNome());
 
@@ -79,21 +84,28 @@ public class Main {
 				System.out.println(usuario.getNome());
 			}*/
 
-			//processarPC(arvoreUsuario);
+
 		}
 
-		private static void processarPC(Arvore arvoreUsuario){
+		private static void processarDispositivosPC(Arvore arvoreUsuario){
 			ProcessamentoDispositivos processamentoDispositivos = new ProcessamentoDispositivos();
 
 			HashMap<String, String> filtro = new HashMap<String, String>();
-			filtro.put("usuario", "DTAA/RES0962");
+			filtro.put("usuario", "DTAA/" + ((Usuario)arvoreUsuario.getValor()).getId());
+
+			List<ArvoreModelo> arvorePCs = arvoreUsuario.getFilhos();
 
 			List<Dispositivo> dispositivos = processamentoDispositivos.processarComFiltro(filtro);
 
 			System.out.println("Qtd com filtro: " + dispositivos.size());
 
 			for (Dispositivo dispositivo : dispositivos) {
-				System.out.println(dispositivo.getPc());
+				if(!arvorePCs.isEmpty()){
+					//Buscar dentro da arvore se já existe o pc, caso exista só adiciona um filho para ela
+					//Caso contrário, Cria a arvore de pc com o filho e adiciona dentro do filho do usuário
+				}else{
+					//Cria a arvore de pc com o filho e adiciona dentro do filho do usuário
+				}
 			}
 		}
 }
