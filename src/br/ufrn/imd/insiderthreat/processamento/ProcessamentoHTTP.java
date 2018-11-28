@@ -5,15 +5,15 @@ import br.ufrn.imd.insiderthreat.model.Http;
 import java.util.HashMap;
 import java.util.Map;
 
-public class processamentoHTTP extends Processamento<Http> {
+public class ProcessamentoHTTP extends Processamento<Http> {
     private static final String FILE = "log/http.csv";
     private static final String DELIMITADOR = ",";
 
-    public processamentoHTTP() {
+    public ProcessamentoHTTP() {
         this(FILE);
     }
 
-    private processamentoHTTP(String file) {
+    private ProcessamentoHTTP(String file) {
         super(file);
     }
 

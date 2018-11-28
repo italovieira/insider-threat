@@ -5,15 +5,15 @@ import br.ufrn.imd.insiderthreat.model.Logon;
 import java.util.HashMap;
 import java.util.Map;
 
-public class processamentoLogon extends Processamento<Logon> {
+public class ProcessamentoLogon extends Processamento<Logon> {
     private static final String FILE = "log/logon.csv";
     private static final String DELIMITADOR = ",";
 
-    public processamentoLogon() {
+    public ProcessamentoLogon() {
         this(FILE);
     }
 
-    private processamentoLogon(String file) {
+    private ProcessamentoLogon(String file) {
         super(file);
     }
 

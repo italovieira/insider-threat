@@ -1,13 +1,12 @@
 package br.ufrn.imd.insiderthreat.controle;
 
-import br.ufrn.imd.insiderthreat.model.Dispositivo;
-import br.ufrn.imd.insiderthreat.model.Modelo;
-import br.ufrn.imd.insiderthreat.model.Pc;
-import br.ufrn.imd.insiderthreat.model.Usuario;
+import br.ufrn.imd.insiderthreat.model.*;
 import br.ufrn.imd.insiderthreat.processamento.ProcessamentoDispositivos;
 import br.ufrn.imd.insiderthreat.processamento.ProcessamentoUsuarios;
 import br.ufrn.imd.insiderthreat.util.Arvore;
 import br.ufrn.imd.insiderthreat.util.ArvoreModelo;
+import br.ufrn.imd.insiderthreat.processamento.ProcessamentoHTTP;
+import br.ufrn.imd.insiderthreat.processamento.ProcessamentoLogon;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -71,6 +70,8 @@ public class ArvoreDao {
         for(ArvoreModelo arvoreUsuario : usuariosArvore){
             System.out.println(((Usuario)arvoreUsuario.getValor()).getNome());
             processarDispositivosPC(arvoreUsuario);
+            processarHttpPC(arvoreUsuario);
+            processarLogonPC(arvoreUsuario);
         }
 
         // TODO: remover
@@ -131,4 +132,104 @@ public class ArvoreDao {
         }
     }
 
+
+    public void processarHttpPC(Arvore arvoreUsuario){
+        ProcessamentoHTTP processamentoHttp = new ProcessamentoHTTP();
+
+        HashMap<String, String> filtro = new HashMap<String, String>();
+        filtro.put("usuario", "DTAA/" + ((Usuario)arvoreUsuario.getValor()).getId());
+
+        List<Http> https = processamentoHttp.processarComFiltro(filtro);
+
+        //System.out.println("Qtd com filtro: " + dispositivos.size());
+
+        for (Http http : https) {
+            //cria o objeto para o pc
+            Pc pc = new Pc(http.getPc());
+            //cria a arvore de dispositivo
+            ArvoreModelo arvoreHttp = new ArvoreModelo(http);
+
+            if(!arvoreUsuario.getFilhos().isEmpty()){
+                //variavel para verificar se o nó de dispositivo já foi inserido em algum nó pc
+                boolean dispositivoInserido = false;
+                //Buscar dentro da arvore se já existe o pc, caso exista só adiciona um filho para ela
+                for(int i = 0; i < arvoreUsuario.getFilhos().size(); i++){
+                    Arvore<Modelo> arvorePC = arvoreUsuario.get(i);
+                    if(((Pc)arvorePC.getValor()).getId().equals(pc.getId())){
+                        arvorePC.adicionar(arvoreHttp);
+                        dispositivoInserido = true;
+                        break;
+                    }
+                }
+
+                //Caso contrário, Cria a arvore de pc com o filho dispositivo e adiciona dentro do filho do usuário
+                if(!dispositivoInserido){
+                    //cria a arvore para o pc
+                    ArvoreModelo arvorePC = new ArvoreModelo(pc);
+                    //adiciona a arvore de dispositivo como uma subarvore de PC
+                    arvorePC.adicionar(arvoreHttp);
+                    //adiciona arvore pc ao usuário
+                    arvoreUsuario.adicionar(arvorePC);
+                }
+            }else{
+                //Cria a arvore de pc com o filho e adiciona dentro do filho do usuário
+                //cria a arvore para o pc
+                ArvoreModelo arvorePC = new ArvoreModelo(pc);
+                //adiciona a arvore de dispositivo como uma subarvore de PC
+                arvorePC.adicionar(arvoreHttp);
+                //adiciona arvore pc ao usuário
+                arvoreUsuario.adicionar(arvorePC);
+            }
+        }
+    }
+
+    public void processarLogonPC(Arvore arvoreUsuario){
+        ProcessamentoLogon processamentoLogon = new ProcessamentoLogon();
+
+        HashMap<String, String> filtro = new HashMap<String, String>();
+        filtro.put("usuario", "DTAA/" + ((Usuario)arvoreUsuario.getValor()).getId());
+
+        List<Logon> logons = processamentoLogon.processarComFiltro(filtro);
+
+        //System.out.println("Qtd com filtro: " + dispositivos.size());
+
+        for (Logon logon : logons) {
+            //cria o objeto para o pc
+            Pc pc = new Pc(logon.getPc());
+            //cria a arvore de dispositivo
+            ArvoreModelo arvoreLogon = new ArvoreModelo(logon);
+
+            if(!arvoreUsuario.getFilhos().isEmpty()){
+                //variavel para verificar se o nó de dispositivo já foi inserido em algum nó pc
+                boolean dispositivoInserido = false;
+                //Buscar dentro da arvore se já existe o pc, caso exista só adiciona um filho para ela
+                for(int i = 0; i < arvoreUsuario.getFilhos().size(); i++){
+                    Arvore<Modelo> arvorePC = arvoreUsuario.get(i);
+                    if(((Pc)arvorePC.getValor()).getId().equals(pc.getId())){
+                        arvorePC.adicionar(arvoreLogon);
+                        dispositivoInserido = true;
+                        break;
+                    }
+                }
+
+                //Caso contrário, Cria a arvore de pc com o filho dispositivo e adiciona dentro do filho do usuário
+                if(!dispositivoInserido){
+                    //cria a arvore para o pc
+                    ArvoreModelo arvorePC = new ArvoreModelo(pc);
+                    //adiciona a arvore de dispositivo como uma subarvore de PC
+                    arvorePC.adicionar(arvoreLogon);
+                    //adiciona arvore pc ao usuário
+                    arvoreUsuario.adicionar(arvorePC);
+                }
+            }else{
+                //Cria a arvore de pc com o filho e adiciona dentro do filho do usuário
+                //cria a arvore para o pc
+                ArvoreModelo arvorePC = new ArvoreModelo(pc);
+                //adiciona a arvore de dispositivo como uma subarvore de PC
+                arvorePC.adicionar(arvoreLogon);
+                //adiciona arvore pc ao usuário
+                arvoreUsuario.adicionar(arvorePC);
+            }
+        }
+    }
 }
