@@ -3,7 +3,7 @@ package br.ufrn.imd.insiderthreat.filtro;
 import br.ufrn.imd.insiderthreat.model.Atributos;
 import br.ufrn.imd.insiderthreat.model.Usuario;
 
-public class FiltroPorUsuario implements Filtro {
+public class FiltroPorUsuario implements Filtro<Atributos> {
 	private String idUsuario;
 
 	public FiltroPorUsuario(Usuario usuario) {
@@ -11,13 +11,7 @@ public class FiltroPorUsuario implements Filtro {
 	}
 
 	@Override
-	public boolean validar(Object obj) {
-		try {
-			Atributos atributo = (Atributos) obj;
-			return atributo.getId() == "DTAA" + idUsuario;
-		}
-		catch (Exception e) {
-			return false;
-		}
+	public boolean validar(Atributos atributo) {
+		return atributo.getId() == "DTAA" + idUsuario;
 	}
 }

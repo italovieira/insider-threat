@@ -6,5 +6,5 @@ import br.ufrn.imd.insiderthreat.filtro.Filtro;
 
 public interface DAO<T> {
 	public List<T> processarTodos();
-	public List<T> processarComFiltro(Filtro filtro);
+	public List<T> processarComFiltro(Filtro<? super T> filtro);
 }
