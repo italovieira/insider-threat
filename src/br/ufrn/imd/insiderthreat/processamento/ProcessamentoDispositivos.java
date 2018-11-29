@@ -1,8 +1,10 @@
 package br.ufrn.imd.insiderthreat.processamento;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import br.ufrn.imd.insiderthreat.filtro.Filtro;
 import br.ufrn.imd.insiderthreat.model.Dispositivo;
 
 public class ProcessamentoDispositivos extends Processamento<Dispositivo> {
@@ -43,5 +45,6 @@ public class ProcessamentoDispositivos extends Processamento<Dispositivo> {
 		dispositivo.setAtividade(map.get("atividade"));
 		
 		return dispositivo;
-	}	
+	}
+
 }

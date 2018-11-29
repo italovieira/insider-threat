@@ -3,6 +3,7 @@ package br.ufrn.imd.insiderthreat.processamento;
 import br.ufrn.imd.insiderthreat.model.Http;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ProcessamentoHTTP extends Processamento<Http> {
