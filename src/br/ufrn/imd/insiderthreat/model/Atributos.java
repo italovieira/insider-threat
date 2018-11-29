@@ -1,11 +1,11 @@
 package br.ufrn.imd.insiderthreat.model;
 
 public class Atributos implements Modelo {
-    private String id;
-    private String data;
-    private String usuario;
-    private String pc;
-    private String atividade;
+    protected String id;
+    protected String data;
+    protected String usuario;
+    protected String pc;
+    protected String atividade;
 
     public String getId() {
         return id;

@@ -36,4 +36,7 @@ public abstract class Arvore<T> {
 	public List<Arvore<T>> getFilhos() {
 		return filhos;
 	}
+
+	//Returna se o nó possui filhos
+	public boolean possuiFilhos(){ return !this.filhos.isEmpty();}
 }

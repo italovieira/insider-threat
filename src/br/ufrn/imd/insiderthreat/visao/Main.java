@@ -13,12 +13,15 @@ import br.ufrn.imd.insiderthreat.processamento.ProcessamentoDispositivos;
 import br.ufrn.imd.insiderthreat.processamento.ProcessamentoUsuarios;
 import br.ufrn.imd.insiderthreat.util.Arvore;
 import br.ufrn.imd.insiderthreat.util.ArvoreModelo;
+import br.ufrn.imd.insiderthreat.visao.Funcionalidades;
 
 public class Main {
 
 	public static void main(String[] args) {
-		ArvoreDao arvoreConfiguracoes = new ArvoreDao();
-		arvoreConfiguracoes.processarUsuarios();
+		Funcionalidades funcionalidades = new Funcionalidades();
+		funcionalidades.iniciarAplicacao();
+		//ArvoreDao arvoreConfiguracoes = new ArvoreDao();
+		//arvoreConfiguracoes.processarUsuarios();
 	}
 
 }
