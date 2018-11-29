@@ -14,6 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 public class ArvoreDao {
@@ -53,6 +54,20 @@ public class ArvoreDao {
 
         }
 
+    }
+
+    public List<ArvoreModelo> filtrarPorPapel(String papel) {
+		// Remove os usuários que não são do papel
+    	List<ArvoreModelo> arvoresFiltradas = new ArrayList<>();
+
+		for (ArvoreModelo arvore : this.usuariosArvore) {
+    		Usuario usuario = (Usuario) arvore.getValor();
+    		if (papel.equals(usuario.getPapel())) {
+    			arvoresFiltradas.add(arvore);
+    		}
+		}
+		
+		return arvoresFiltradas;
     }
 
     public void criarNóDispositivosPCComFiltro(Arvore arvoreUsuario, LocalDate filtroDateInicial, LocalDate filtroDateFinal){

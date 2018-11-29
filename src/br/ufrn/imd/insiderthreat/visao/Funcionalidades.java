@@ -66,7 +66,6 @@ public class Funcionalidades {
         this.arvoreConfiguracoes.criarArvoreUsuariosComFiltro(dataIni, dataFin);
 
         this.listarUsuarios();
-
     }
     
     public void buscarUsuariosPorPapel() {
@@ -76,26 +75,10 @@ public class Funcionalidades {
         System.out.print("Informe o papel: ");
         String papel = scanner.nextLine();
 
-        //TODO adicionar um try catch para validação das datas
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        // TODO: Lembrete: essas datas devem ser definidas pelo operador
-        LocalDate dataIni = LocalDate.parse("01/01/2002", formato);
-        LocalDate dataFin = LocalDate.parse("01/01/2012", formato);
-
         System.out.println("Processando...");
+        List<ArvoreModelo> arvoresFiltradas = this.arvoreConfiguracoes.filtrarPorPapel(papel);
 
-        this.arvoreConfiguracoes.criarArvoreUsuariosComFiltro(dataIni, dataFin);
-
-    	List<ArvoreModelo> arvores = new ArrayList<>();
-
-    	for (ArvoreModelo arvore : this.arvoreConfiguracoes.getUsuariosArvore()) {
-    		Usuario usuario = (Usuario) arvore.getValor();
-    		if (papel.equals(usuario.getPapel())) {
-    			arvores.add(arvore);
-    		}
-    	}
-    	
-    	listarUsuarios(arvores);
+    	listarUsuarios(arvoresFiltradas);
     }
 
 

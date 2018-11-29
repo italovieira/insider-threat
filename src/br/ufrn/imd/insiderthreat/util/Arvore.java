@@ -13,7 +13,7 @@ public abstract class Arvore<T> {
 		filhos = new ArrayList<Arvore<T>>();
 	}
 	
-	public Object getValor() {
+	public T getValor() {
 		return valor;
 	}
 	
