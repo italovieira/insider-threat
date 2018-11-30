@@ -19,9 +19,8 @@ public class Main {
 
 	public static void main(String[] args) {
 		Funcionalidades funcionalidades = new Funcionalidades();
-		funcionalidades.menuInicial();
-		//funcionalidades.buscarUsuariosPorPeriodo();
-		//funcionalidades.buscarUsuariosPorPapel();
+		funcionalidades.buscarUsuariosPorPeriodo();
+		funcionalidades.buscarUsuariosPorPapel();
 		//ArvoreDao arvoreConfiguracoes = new ArvoreDao();
 		//arvoreConfiguracoes.processarUsuarios();
 	}

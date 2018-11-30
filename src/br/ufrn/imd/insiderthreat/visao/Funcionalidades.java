@@ -1,5 +1,7 @@
 package br.ufrn.imd.insiderthreat.visao;
 import br.ufrn.imd.insiderthreat.controle.ArvoreDao;
+import br.ufrn.imd.insiderthreat.controle.Histograma;
+import br.ufrn.imd.insiderthreat.model.Atributos;
 import br.ufrn.imd.insiderthreat.model.Modelo;
 import br.ufrn.imd.insiderthreat.model.Usuario;
 import br.ufrn.imd.insiderthreat.util.Arvore;
@@ -23,12 +25,12 @@ public class Funcionalidades {
         this.arvoreConfiguracoes = new ArvoreDao();
     }
 
-    public void menuInicial(){
+    public void iniciarAplicacao(){
         int opcao;
         do {
             System.out.println("________________________________________________________________________________");
             System.out.println("INÍCIO DA APLICAÇÃO");
-            System.out.println("[1] - Buscar usuários em determinado periodo");
+            System.out.println("[1] - Buscar usuário em determinado periodo");
             System.out.println("[2] - Verificar dados de um usuário específico");
             System.out.println("[0] - Sair");
             System.out.print("Informe escolha: ");
@@ -68,30 +70,6 @@ public class Funcionalidades {
 
         this.listarUsuarios();
     }
-
-    public void subMenu(){
-        int opcao;
-        do {
-            System.out.println("________________________________________________________________________________");
-            System.out.println("OPERAÇÕES COM OS USUÁRIOS BUSCADOS");
-            System.out.println("[1] - Filtrar usuários por determinado papel");
-            System.out.println("[2] - Gerar histograma de usuários de determinado papel");
-            System.out.println("[3] - Gerar histograma de um usuário especifico ");
-            System.out.println("[0] - Sair");
-            System.out.print("Informe escolha: ");
-            Scanner entradaDeDados = new Scanner(System.in);
-            opcao = entradaDeDados.nextInt();
-
-            switch (opcao){
-                case 1:
-                    this.buscarUsuariosPorPeriodo();
-                    break;
-                case 0:
-                default: ;
-                    break;
-            }
-        }while (opcao != 0);
-    }
     
     public void buscarUsuariosPorPapel() {
         Scanner scanner = new Scanner(System.in);
@@ -114,11 +92,7 @@ public class Funcionalidades {
         }else{
             for(ArvoreModelo arvoreUsuario : arvores){
                 Usuario usuario = ((Usuario)arvoreUsuario.getValor());
-                int atividades = 0;
-                for(Arvore<Modelo> arvorePc : arvoreUsuario.getFilhos()){
-                    atividades += arvorePc.getFilhos().size();
-                }
-                System.out.printf("Id: %s | Nome: %s | Papel: %s | Quantidade atividades: %s\n", usuario.getId(), usuario.getNome(), usuario.getPapel(), atividades);
+                System.out.printf("Id: %s | Nome: %s | Papel: %s \n", usuario.getId(), usuario.getNome(), usuario.getPapel());
 
             }
         }
