@@ -1,4 +1,10 @@
 package br.ufrn.imd.insiderthreat.visao;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 import br.ufrn.imd.insiderthreat.controle.ArvoreDao;
 import br.ufrn.imd.insiderthreat.controle.Histograma;
 import br.ufrn.imd.insiderthreat.model.Atributos;
@@ -6,16 +12,6 @@ import br.ufrn.imd.insiderthreat.model.Modelo;
 import br.ufrn.imd.insiderthreat.model.Usuario;
 import br.ufrn.imd.insiderthreat.util.Arvore;
 import br.ufrn.imd.insiderthreat.util.ArvoreModelo;
-
-import java.text.ParseException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Scanner;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 public class Funcionalidades {
 
@@ -79,7 +75,7 @@ public class Funcionalidades {
         String papel = scanner.nextLine();
 
         System.out.println("Processando...");
-        List<ArvoreModelo> arvoresFiltradas = this.arvoreConfiguracoes.filtrarPorPapel(papel);
+        List<ArvoreModelo> arvoresFiltradas = new ArrayList(this.arvoreConfiguracoes.filtrarPorPapel(papel).values());
 
     	listarUsuarios(arvoresFiltradas);
     }
@@ -91,7 +87,11 @@ public class Funcionalidades {
         }else{
             for(ArvoreModelo arvoreUsuario : arvores){
                 Usuario usuario = ((Usuario)arvoreUsuario.getValor());
-                System.out.printf("Id: %s | Nome: %s | Papel: %s \n", usuario.getId(), usuario.getNome(), usuario.getPapel());
+                int qtdAtividades = 0;
+                for(Arvore<Modelo> arvorePc : arvoreUsuario.getFilhos()){
+                    qtdAtividades += arvorePc.getFilhos().size();
+                }
+                System.out.printf("Id: %s | Nome: %s | Papel: %s | Quantidade Atividades: %s \n", usuario.getId(), usuario.getNome(), usuario.getPapel(), qtdAtividades);
 
             }
         }
@@ -99,7 +99,8 @@ public class Funcionalidades {
     }
     
     public void listarUsuarios() {
-    	listarUsuarios(this.arvoreConfiguracoes.getUsuariosArvore());
+        List<ArvoreModelo> arvores = new ArrayList<ArvoreModelo>(this.arvoreConfiguracoes.getUsuariosArvore().values());
+    	listarUsuarios(arvores);
     }
     
     
@@ -111,30 +112,31 @@ public class Funcionalidades {
         System.out.println("Processando...");
 
         List<ArvoreModelo> arvoresFiltradas = new ArrayList<>();
-        arvoresFiltradas.add(this.arvoreConfiguracoes.getUsuariosArvore().get(0));
-        arvoresFiltradas.add(this.arvoreConfiguracoes.getUsuariosArvore().get(1));
+        arvoresFiltradas.add(this.arvoreConfiguracoes.getUsuariosArvore().get("DTAA/RES0962"));
+        arvoresFiltradas.add(this.arvoreConfiguracoes.getUsuariosArvore().get("DTAA/BJC0569"));
 
     	listarUsuarios(arvoresFiltradas);
 
     	ArvoreModelo arvoreTest1 = arvoresFiltradas.get(0);
     	ArvoreModelo arvoreTest2 = arvoresFiltradas.get(1);
         imprimirArvore(arvoreTest1);
-        imprimirArvore(arvoreTest2);
-
-        try {
-        Histograma h1 = new Histograma(arvoreTest1);
-        Histograma h2 = new Histograma(arvoreTest2);
-        Histograma h3 = new Histograma(arvoresFiltradas);
+        //imprimirArvore(arvoreTest2);
         
-        System.out.println("Histograma dos perfis dos 2 usuários:");
-        h1.imprimir();
-        h2.imprimir();
+		try {
+			Histograma h1 = new Histograma(arvoreTest1);
+			Histograma h2 = new Histograma(arvoreTest2);
+			Histograma h3 = new Histograma(arvoresFiltradas);
+			
+			System.out.println("Histograma dos perfis dos 2 usuários:");
+			h1.imprimir();
+			h2.imprimir();
 
-        System.out.println("Histograma da média do perfil dos 2 usuários:");
-        h3.imprimir();
-        } catch (Exception e) {
-        	e.printStackTrace();
-        }
+			System.out.println("Histograma da média do perfil dos 2 usuários:");
+			h3.imprimir();
+			System.out.println("Distância " + h1.calcularDistancia(h3));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
     
     // TODO: remover: apenas para testes

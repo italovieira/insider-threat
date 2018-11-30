@@ -66,7 +66,7 @@ public class Histograma {
 		double distancia = 0;
 
 		for (int i = 0; i < 24; i++) {
-			distancia += Math.pow(2, this.horas[i] - histograma.horas[i]);
+			distancia += Math.pow(this.horas[i] - histograma.horas[i], 2);
 		}
 
 		return Math.sqrt(distancia);
