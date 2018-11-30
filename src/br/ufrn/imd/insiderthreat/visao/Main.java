@@ -32,18 +32,22 @@ public class Main {
 		
 		ProcessamentoUsuarios proc = new ProcessamentoUsuarios();
 		List<Usuario> usuarios = proc.processarTodos();
-		Map<String, Usuario> mapUsuarios = usuarios.stream().collect(
-				Collectors.toMap(x -> x.getId(), x -> x)
+		Map<String, ArvoreModelo> mapUsuarios = usuarios.stream().collect(
+				Collectors.toMap(x -> x.getId(), x -> new ArvoreModelo(x))
 		);
 
 		ProcessamentoAtributos procAtributos = new ProcessamentoAtributos();
 		List<Atributos> atributos = procAtributos.processarComFiltro(new FiltroPorData("1", "2"));
 		
 		for (Atributos atributo : atributos) {
-
+			ArvoreModelo arvore = mapUsuarios.get(atributo.getUsuario());
+			
 		}
 	}
 
+	public void makeTree() {
+		
+	}
 }
 
 	
