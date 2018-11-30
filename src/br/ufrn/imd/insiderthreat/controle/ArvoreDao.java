@@ -36,8 +36,9 @@ public class ArvoreDao {
         //busca todos os usuários e põe na arvore.
         //HashMap<String, String> filtro = new HashMap<String, String>();
         // Filtro para o usuário de id RES0962"
-        //filtro.put("id", "RES0962");
+        //filtro.put("id", "YCB0005");
         List<Usuario> usuarios = processamentoUsuarios.processarTodos();
+        //List<Usuario> usuarios = processamentoUsuarios.processarComFiltro(filtro);
 
         //Cria uma lista com a arvore de usuários
         this.usuariosArvore = new ArrayList<ArvoreModelo>();
@@ -45,7 +46,9 @@ public class ArvoreDao {
             //Crio uma pré-arvore de usuário
             ArvoreModelo arvoreUsuario = new ArvoreModelo(usuario);
             //busco os nós de dispositivos para o usuário
-            criarNóDispositivosPCComFiltro(arvoreUsuario, filtroDateInicial, filtroDateFinal);
+            criarNoDispositivosPCComFiltro(arvoreUsuario, filtroDateInicial, filtroDateFinal);
+            criarNoHttpPCComFiltro(arvoreUsuario, filtroDateInicial, filtroDateFinal);
+            criarNoLogonPCComFiltro(arvoreUsuario, filtroDateInicial, filtroDateFinal);
 
             //caso o usuário tenha filhos ele será adicionado na arvore de usuários
             if(arvoreUsuario.possuiFilhos()){
@@ -70,7 +73,7 @@ public class ArvoreDao {
 		return arvoresFiltradas;
     }
 
-    public void criarNóDispositivosPCComFiltro(Arvore arvoreUsuario, LocalDate filtroDateInicial, LocalDate filtroDateFinal){
+    public void criarNoDispositivosPCComFiltro(Arvore arvoreUsuario, LocalDate filtroDateInicial, LocalDate filtroDateFinal){
         ProcessamentoDispositivos processamentoDispositivos = new ProcessamentoDispositivos();
         HashMap<String, String> filtro = new HashMap<String, String>();
         filtro.put("usuario", "DTAA/" + ((Usuario)arvoreUsuario.getValor()).getId());
@@ -81,7 +84,7 @@ public class ArvoreDao {
         }
     }
 
-    public void criarNóHttpPCComFiltro(Arvore arvoreUsuario, LocalDate filtroDateInicial, LocalDate filtroDateFinal){
+    public void criarNoHttpPCComFiltro(Arvore arvoreUsuario, LocalDate filtroDateInicial, LocalDate filtroDateFinal){
         ProcessamentoHTTP processamentoHttp = new ProcessamentoHTTP();
         HashMap<String, String> filtro = new HashMap<String, String>();
         filtro.put("usuario", "DTAA/" + ((Usuario)arvoreUsuario.getValor()).getId());
@@ -94,7 +97,7 @@ public class ArvoreDao {
 
     }
 
-    public void criarNóLogonPCComFiltro(Arvore arvoreUsuario, LocalDate filtroDateInicial, LocalDate filtroDateFinal){
+    public void criarNoLogonPCComFiltro(Arvore arvoreUsuario, LocalDate filtroDateInicial, LocalDate filtroDateFinal){
         ProcessamentoLogon processamentoLogon = new ProcessamentoLogon();
         HashMap<String, String> filtro = new HashMap<String, String>();
         filtro.put("usuario", "DTAA/" + ((Usuario)arvoreUsuario.getValor()).getId());
