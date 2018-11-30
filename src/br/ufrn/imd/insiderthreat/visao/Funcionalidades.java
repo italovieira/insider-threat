@@ -84,7 +84,6 @@ public class Funcionalidades {
     	listarUsuarios(arvoresFiltradas);
     }
 
-
     private void listarUsuarios(List<ArvoreModelo> arvores){
         System.out.println("________________________________________________________________________________");
         if(arvores.isEmpty()){
@@ -102,4 +101,57 @@ public class Funcionalidades {
     public void listarUsuarios() {
     	listarUsuarios(this.arvoreConfiguracoes.getUsuariosArvore());
     }
+    
+    
+
+    // TODO: remover: apenas para testes
+    public void test1() {
+        System.out.println("________________________________________________________________________________");
+        System.out.println("TESTE IMPRIMIR 2 HISTOGRAMAS");
+        System.out.println("Processando...");
+
+        List<ArvoreModelo> arvoresFiltradas = new ArrayList<>();
+        arvoresFiltradas.add(this.arvoreConfiguracoes.getUsuariosArvore().get(0));
+        arvoresFiltradas.add(this.arvoreConfiguracoes.getUsuariosArvore().get(1));
+
+    	listarUsuarios(arvoresFiltradas);
+
+    	ArvoreModelo arvoreTest1 = arvoresFiltradas.get(0);
+    	ArvoreModelo arvoreTest2 = arvoresFiltradas.get(1);
+        imprimirArvore(arvoreTest1);
+        imprimirArvore(arvoreTest2);
+
+        try {
+        Histograma h1 = new Histograma(arvoreTest1);
+        Histograma h2 = new Histograma(arvoreTest2);
+        Histograma h3 = new Histograma(arvoresFiltradas);
+        
+        System.out.println("Histograma dos perfis dos 2 usuários:");
+        h1.imprimir();
+        h2.imprimir();
+
+        System.out.println("Histograma da média do perfil dos 2 usuários:");
+        h3.imprimir();
+        } catch (Exception e) {
+        	e.printStackTrace();
+        }
+    }
+    
+    // TODO: remover: apenas para testes
+    public void imprimirArvore(Arvore<Modelo> arvore) {
+    	 Modelo valor = arvore.getValor();
+    	 if (valor instanceof Atributos) {
+    		 Atributos atributo = (Atributos) valor;
+    		 System.out.println(atributo.getId() + " | " + atributo.getData() + " | " + atributo.getPc());
+    	 }
+
+    	 if (arvore.getFilhos().isEmpty()) {
+    		 return;
+    	 }
+    	 
+    	 for (Arvore<Modelo> arvoreTemp : arvore.getFilhos()) {
+    		 imprimirArvore(arvoreTemp);
+    	 }
+    }
+
 }
