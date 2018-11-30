@@ -8,9 +8,10 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
 
-import br.ufrn.imd.insiderthreat.model.Modelo;
+import br.ufrn.imd.insiderthreat.filtro.Filtro;
+import br.ufrn.imd.insiderthreat.filtro.FiltroAprovarTodos;
 
-public abstract class Processamento<T extends Modelo> {
+public abstract class Processamento<T> implements DAO<T> {
 	private String file;
 	
 	Map<String, Object> criterios = new HashMap<String, Object>(); 
@@ -64,7 +65,41 @@ public abstract class Processamento<T extends Modelo> {
 		return valores;
 	}
 	
+	public List<T> processarComFiltro(Filtro<? super T> filtro) {
+		ArrayList<T> valores = new ArrayList<T>();
+		BufferedReader reader = null;
+				
+		try {
+			// TODO: lembrete: fechar reader
+			reader = new BufferedReader(new FileReader(file));
+		
+			String linha = reader.readLine();
+			
+			while (linha != null) {
+				T valor = converter(processarLinha(linha));
+				
+				if (filtro.validar((T) valor)) {
+					valores.add(valor);
+				}
+				
+				linha = reader.readLine();				
+			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				reader.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return valores;
+	}
+	
 	public List<T> processarTodos() {
-		return processarComFiltro(new HashMap<String, String>());
+		FiltroAprovarTodos filtro = new FiltroAprovarTodos();
+		return processarComFiltro(filtro);
 	}
 }

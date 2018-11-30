@@ -43,5 +43,6 @@ public class ProcessamentoDispositivos extends Processamento<Dispositivo> {
 		dispositivo.setAtividade(map.get("atividade"));
 		
 		return dispositivo;
-	}	
+	}
+
 }
