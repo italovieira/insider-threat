@@ -1,14 +1,16 @@
 package br.ufrn.imd.insiderthreat.filtro;
 
+import java.time.LocalDate;
+
 import br.ufrn.imd.insiderthreat.model.Atributos;
 
 public class FiltroPorData implements Filtro<Atributos> {
-	private String inicio;
-	private String fim;
+	private LocalDate inicio;
+	private LocalDate fim;
 
-	public FiltroPorData(String inicio, String fim) {
-		this.inicio = inicio;
-		this.fim = fim;
+	public FiltroPorData(LocalDate filtroDateInicial, LocalDate filtroDateFinal) {
+		this.inicio = filtroDateInicial;
+		this.fim = filtroDateFinal;
 	}
 	
 	public boolean validar(Atributos valor) {
