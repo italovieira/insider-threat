@@ -79,7 +79,7 @@ public class Funcionalidades {
         String papel = scanner.nextLine();
 
         System.out.println("Processando...");
-        List<ArvoreModelo> arvoresFiltradas = this.arvoreConfiguracoes.filtrarPorPapel(papel);
+        List<ArvoreModelo> arvoresFiltradas = new ArrayList(this.arvoreConfiguracoes.filtrarPorPapel(papel).values());
 
     	listarUsuarios(arvoresFiltradas);
     }
@@ -99,7 +99,8 @@ public class Funcionalidades {
     }
     
     public void listarUsuarios() {
-    	listarUsuarios(this.arvoreConfiguracoes.getUsuariosArvore());
+        List<ArvoreModelo> arvores = new ArrayList(this.arvoreConfiguracoes.getUsuariosArvore().values());
+    	listarUsuarios(arvores);
     }
     
     
@@ -111,8 +112,8 @@ public class Funcionalidades {
         System.out.println("Processando...");
 
         List<ArvoreModelo> arvoresFiltradas = new ArrayList<>();
-        arvoresFiltradas.add(this.arvoreConfiguracoes.getUsuariosArvore().get(0));
-        arvoresFiltradas.add(this.arvoreConfiguracoes.getUsuariosArvore().get(1));
+        arvoresFiltradas.add(this.arvoreConfiguracoes.getUsuariosArvore().get("DTAA/RES0962"));
+        arvoresFiltradas.add(this.arvoreConfiguracoes.getUsuariosArvore().get("DTAA/BJC0569"));
 
     	listarUsuarios(arvoresFiltradas);
 

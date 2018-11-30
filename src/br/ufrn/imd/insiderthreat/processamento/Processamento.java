@@ -32,6 +32,9 @@ public abstract class Processamento<T> implements DAO<T> {
 			// TODO: lembrete: fechar reader
 			reader = new BufferedReader(new FileReader(file));
 		
+			// Pular linha de cabeçalho
+			reader.readLine();
+
 			String linha = reader.readLine();
 			
 			while (linha != null) {
@@ -73,6 +76,9 @@ public abstract class Processamento<T> implements DAO<T> {
 			// TODO: lembrete: fechar reader
 			reader = new BufferedReader(new FileReader(file));
 		
+			// Pular linha de cabeçalho
+			reader.readLine();
+
 			String linha = reader.readLine();
 			
 			while (linha != null) {

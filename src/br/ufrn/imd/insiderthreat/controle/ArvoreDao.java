@@ -43,11 +43,14 @@ public class ArvoreDao {
         //filtro.put("id", "YCB0005");
         List<Usuario> usuarios = processamentoUsuarios.processarTodos();
         //List<Usuario> usuarios = processamentoUsuarios.processarComFiltro(filtro);
+        
+        Map<String, ArvoreModelo> usuariosArvore = new HashMap<>();
+        for (Usuario usuario : usuarios) {
+        	usuariosArvore.put("DTAA/" + usuario.getId(), new ArvoreModelo(usuario));
+        }
+        
+        this.usuariosArvore = usuariosArvore;
 
-        //Cria uma lista com a arvore de usuários
-        this.usuariosArvore = new HashMap<>();
-		//Crio uma pré-arvore de usuário
-		//busco os nós de dispositivos para o usuário
 		criarNoDispositivosPCComFiltro(filtroDateInicial, filtroDateFinal);
     }
 
