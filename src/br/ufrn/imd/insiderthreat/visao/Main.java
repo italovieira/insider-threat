@@ -1,5 +1,8 @@
 package br.ufrn.imd.insiderthreat.visao;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,9 +27,34 @@ public class Main {
 		//ArvoreDao arvoreConfiguracoes = new ArvoreDao();
 		//arvoreConfiguracoes.processarUsuarios();
 		
-		funcionalidades.buscarUsuariosPorPeriodo();
-		funcionalidades.test1();
+		//funcionalidades.buscarUsuariosPorPeriodo();
+		//funcionalidades.test1();
+        connect();
+
 	}
+
+    public static void connect() {
+        Connection conn = null;
+        try {
+            // db parameters
+            String url = "jdbc:sqlite:insider-threat-database.db";
+            // create a connection to the database
+            conn = DriverManager.getConnection(url);
+
+            System.out.println("Connection to SQLite has been established.");
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+    }
 
 }
 
