@@ -1,25 +1,20 @@
 package br.ufrn.imd.insiderthreat.controle;
 
-import br.ufrn.imd.insiderthreat.filtro.FiltroPorData;
-import br.ufrn.imd.insiderthreat.model.*;
-import br.ufrn.imd.insiderthreat.processamento.ProcessamentoAtributos;
-import br.ufrn.imd.insiderthreat.processamento.ProcessamentoDispositivos;
-import br.ufrn.imd.insiderthreat.processamento.ProcessamentoUsuarios;
-import br.ufrn.imd.insiderthreat.util.Arvore;
-import br.ufrn.imd.insiderthreat.util.ArvoreModelo;
-import br.ufrn.imd.insiderthreat.processamento.ProcessamentoHTTP;
-import br.ufrn.imd.insiderthreat.processamento.ProcessamentoLogon;
-import sun.rmi.runtime.Log;
-
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import br.ufrn.imd.insiderthreat.filtro.FiltroPorData;
+import br.ufrn.imd.insiderthreat.model.Atributos;
+import br.ufrn.imd.insiderthreat.model.Modelo;
+import br.ufrn.imd.insiderthreat.model.Pc;
+import br.ufrn.imd.insiderthreat.model.Usuario;
+import br.ufrn.imd.insiderthreat.processamento.ProcessamentoAtributos;
+import br.ufrn.imd.insiderthreat.processamento.ProcessamentoUsuarios;
+import br.ufrn.imd.insiderthreat.util.Arvore;
+import br.ufrn.imd.insiderthreat.util.ArvoreModelo;
 
 public class ArvoreDao {
 
@@ -69,8 +64,6 @@ public class ArvoreDao {
     }
 
     public void criarNoDispositivosPCComFiltro(LocalDate filtroDateInicial, LocalDate filtroDateFinal){
-        HashMap<String, String> filtro = new HashMap<String, String>();
-
         ProcessamentoAtributos processamentoAtributos = new ProcessamentoAtributos();
 		List<Atributos> atributos = processamentoAtributos.processarComFiltro(new FiltroPorData(filtroDateInicial, filtroDateFinal));
 
@@ -80,9 +73,7 @@ public class ArvoreDao {
     }
 
     public void criarNoPcComFiltro(Atributos atributo) {
-        LocalDate dataAtributo = LocalDate.parse(atributo.getData(), DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss"));
-        
-        Arvore arvoreUsuario = getUsuariosArvore().get(atributo.getUsuario());
+        ArvoreModelo arvoreUsuario = getUsuariosArvore().get(atributo.getUsuario());
 
         //compara se a data do dispositivo está entre a data especificada
         /*
