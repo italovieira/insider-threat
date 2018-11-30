@@ -46,7 +46,7 @@ public class ArvoreDao {
         
         this.usuariosArvore = usuariosArvore;
 
-		criarNoDispositivosPCComFiltro(filtroDateInicial, filtroDateFinal);
+		criarNoAtributosPCComFiltro(filtroDateInicial, filtroDateFinal);
     }
 
     public Map<String, ArvoreModelo> filtrarPorPapel(String papel) {
@@ -63,7 +63,7 @@ public class ArvoreDao {
 		return arvoresFiltradas;
     }
 
-    public void criarNoDispositivosPCComFiltro(LocalDate filtroDateInicial, LocalDate filtroDateFinal){
+    public void criarNoAtributosPCComFiltro(LocalDate filtroDateInicial, LocalDate filtroDateFinal){
         ProcessamentoAtributos processamentoAtributos = new ProcessamentoAtributos();
 		List<Atributos> atributos = processamentoAtributos.processarComFiltro(new FiltroPorData(filtroDateInicial, filtroDateFinal));
 

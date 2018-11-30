@@ -87,7 +87,11 @@ public class Funcionalidades {
         }else{
             for(ArvoreModelo arvoreUsuario : arvores){
                 Usuario usuario = ((Usuario)arvoreUsuario.getValor());
-                System.out.printf("Id: %s | Nome: %s | Papel: %s \n", usuario.getId(), usuario.getNome(), usuario.getPapel());
+                int qtdAtividades = 0;
+                for(Arvore<Modelo> arvorePc : arvoreUsuario.getFilhos()){
+                    qtdAtividades += arvorePc.getFilhos().size();
+                }
+                System.out.printf("Id: %s | Nome: %s | Papel: %s | Quantidade Atividades: %s \n", usuario.getId(), usuario.getNome(), usuario.getPapel(), qtdAtividades);
 
             }
         }
