@@ -2,14 +2,12 @@ package br.ufrn.imd.insiderthreat.visao;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 import br.ufrn.imd.insiderthreat.controle.ArvoreDao;
 import br.ufrn.imd.insiderthreat.controle.AtividadeDao;
 import br.ufrn.imd.insiderthreat.controle.HistogramaDao;
+import br.ufrn.imd.insiderthreat.controle.RankingDao;
 import br.ufrn.imd.insiderthreat.excecao.DataValidacaoInicioFimException;
 import br.ufrn.imd.insiderthreat.model.Atributos;
 import br.ufrn.imd.insiderthreat.model.Modelo;
@@ -262,6 +260,9 @@ public class Funcionalidades {
             System.out.println("HISTOGRAMA RESULTADO:\n");
             ArvoreModelo arvoreTest1 = arvoresFiltradas.get(0);
             try {
+                //Map<Usuario, Double> rankingMap = new HashMap<Usuario, Double>();
+                RankingDao rankingUsuarios = new RankingDao();
+
                 HistogramaDao histogramaUsuario = new HistogramaDao(arvoreTest1);
                 System.out.print("Histograma do usuário: ");
                 System.out.println(((Usuario)arvoreTest1.getValor()).getNome());
@@ -271,13 +272,32 @@ public class Funcionalidades {
                 System.out.println("histograma dos usuários pertentences ao papel: " + ((Usuario)arvoreTest1.getValor()).getPapel());
                 List<ArvoreModelo> arvoreUsuariosPapel = this.arvoreConfiguracoes.filtrarPorPapel(((Usuario)arvoreTest1.getValor()).getPapel());
                 HistogramaDao histogramaUsuariosPapel = new HistogramaDao(arvoreUsuariosPapel);
+                for (ArvoreModelo arvore : arvoreUsuariosPapel) {
+                    try {
+                        HistogramaDao histogramaUsuarioDoPerfil = new HistogramaDao(arvore);
+                        System.out.print("ID: " + ((Usuario)arvore.getValor()).getId() + " | ");
+                        System.out.println("NOME: " + ((Usuario)arvore.getValor()).getNome());
+                        histogramaUsuarioDoPerfil.imprimir();
+
+                        //adiciona os usuários ao ranking
+                        rankingUsuarios.rankingAdd(((Usuario)arvore.getValor()), histogramaUsuarioDoPerfil.calcularDistancia(histogramaUsuariosPapel));
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
 
                 System.out.println("");
                 System.out.println("Histograma do perfil médio dos usuários de mesmo papel: ");
                 histogramaUsuariosPapel.imprimir();
 
                 System.out.println("");
-                System.out.println("Distância do usuário para o perfil médio: " + histogramaUsuario.calcularDistancia(histogramaUsuariosPapel));
+                System.out.println("Distância do usuário "+ ((Usuario)arvoreTest1.getValor()).getNome() + " para o perfil médio: " + histogramaUsuario.calcularDistancia(histogramaUsuariosPapel));
+
+                System.out.println("");
+                System.out.println("Ranking de usuários de acordo com a distancia:");
+                rankingUsuarios.imprimirRankingOrdenado();
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -339,5 +359,7 @@ public class Funcionalidades {
     		 imprimirArvore(arvoreTemp);
     	 }
     }
+
+
 
 }
