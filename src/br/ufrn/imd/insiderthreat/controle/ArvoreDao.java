@@ -1,6 +1,7 @@
 package br.ufrn.imd.insiderthreat.controle;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,9 @@ import br.ufrn.imd.insiderthreat.util.ArvoreModelo;
 public class ArvoreDao {
 
     private Map<String, ArvoreModelo> usuariosArvore;
+    
+    public ArvoreDao() {
+    }
 
 
     public Map<String, ArvoreModelo> getUsuariosArvore() {
@@ -29,7 +33,6 @@ public class ArvoreDao {
     public void setUsuariosArvore(Map<String, ArvoreModelo> usuariosArvore) {
         this.usuariosArvore = usuariosArvore;
     }
-
 
     public void criarArvorePerfisUsuarios(String campo, String filtroBusca){
         ProcessamentoUsuarios processamentoUsuarios = new ProcessamentoUsuarios();
@@ -63,16 +66,21 @@ public class ArvoreDao {
         this.usuariosArvore = usuariosArvore;
 
 		criarNoAtributosPCComFiltro(filtroDateInicial, filtroDateFinal);
+		removerUsuariosSemAtividade();
+    }
+    
+    private void removerUsuariosSemAtividade() {
+    	usuariosArvore.entrySet().removeIf(x -> !x.getValue().possuiFilhos());
     }
 
-    public Map<String, ArvoreModelo> filtrarPorPapel(String papel) {
+    public List<ArvoreModelo> filtrarPorPapel(String papel) {
 		// Remove os usuários que não são do papel
-    	Map<String, ArvoreModelo> arvoresFiltradas = new HashMap<>();
+    	List<ArvoreModelo> arvoresFiltradas = new ArrayList<>();
 
 		for (Entry<String, ArvoreModelo> entry : this.usuariosArvore.entrySet()) {
 			Usuario usuario = (Usuario) entry.getValue().getValor();
     		if (papel.equals(usuario.getPapel())) {
-				arvoresFiltradas.put(entry.getKey(), entry.getValue());
+				arvoresFiltradas.add(entry.getValue());
 			}
 		}
 

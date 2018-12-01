@@ -88,7 +88,7 @@ public class Funcionalidades {
                     this.mostrarMediaAtividadeUsuarioPapel();
                     break;
                 case 2:
-                    this.gerarHIstogramaUsuarioPapel();
+                    this.gerarHistogramaUsuarioPapel();
                     break;
                 case 3:
                     this.buscarUsuariosPorPapel();
@@ -215,7 +215,7 @@ public class Funcionalidades {
         String papel = scanner.nextLine();
 
         System.out.println("Processando...");
-        List<ArvoreModelo> arvoresFiltradas = new ArrayList(this.arvoreConfiguracoes.filtrarPorPapel(papel).values());
+        List<ArvoreModelo> arvoresFiltradas = this.arvoreConfiguracoes.filtrarPorPapel(papel);
 
         listarUsuarios(arvoresFiltradas);
     }
@@ -243,7 +243,7 @@ public class Funcionalidades {
     	listarUsuarios(arvores);
     }
 
-    public void gerarHIstogramaUsuarioPapel(){
+    public void gerarHistogramaUsuarioPapel(){
         Scanner entradaDeDados = new Scanner(System.in);
         System.out.println("________________________________________________________________________________");
         System.out.println("BUSCAR DETERMINADO USUÁRIO DA LISTAGEM ACIMA:");
@@ -266,10 +266,11 @@ public class Funcionalidades {
                 System.out.println(((Usuario)arvoreTest1.getValor()).getNome() + "\n");
                 histogramaUsuario.imprimir();
 
-                List<ArvoreModelo> arvoreUsuariosPapel = new ArrayList(this.arvoreConfiguracoes.filtrarPorPapel(((Usuario)arvoreTest1.getValor()).getPapel()).values());
+                List<ArvoreModelo> arvoreUsuariosPapel = this.arvoreConfiguracoes.filtrarPorPapel(((Usuario)arvoreTest1.getValor()).getPapel());
                 HistogramaDao histogramaUsuariosPapel = new HistogramaDao(arvoreUsuariosPapel);
-                System.out.println("Histograma de todos os usuários de mesmo papel: ");
+                System.out.println("Histograma do perfil médio dos usuários de mesmo papel: ");
                 histogramaUsuariosPapel.imprimir();
+                System.out.println("Distância do usuário para o perfil médio: " + histogramaUsuario.calcularDistancia(histogramaUsuariosPapel));
             } catch (Exception e) {
                 e.printStackTrace();
             }
