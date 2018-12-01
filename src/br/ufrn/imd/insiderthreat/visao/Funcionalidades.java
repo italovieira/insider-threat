@@ -179,8 +179,9 @@ public class Funcionalidades {
             this.arvoreConfiguracoes.criarArvoreUsuariosComFiltro(dataIni, dataFin);
 
             this.listarUsuarios();
-
-            this.subMenuFuncionalidades();
+            if(!this.arvoreConfiguracoes.getUsuariosArvore().isEmpty()) {
+                this.subMenuFuncionalidades();
+            }
         }catch (InputMismatchException e){
             System.err.println("Erro: O número digitado não corresponde a um inteiro.");
             System.exit(0);
@@ -263,13 +264,19 @@ public class Funcionalidades {
             try {
                 HistogramaDao histogramaUsuario = new HistogramaDao(arvoreTest1);
                 System.out.print("Histograma do usuário: ");
-                System.out.println(((Usuario)arvoreTest1.getValor()).getNome() + "\n");
+                System.out.println(((Usuario)arvoreTest1.getValor()).getNome());
                 histogramaUsuario.imprimir();
 
+                System.out.println("");
+                System.out.println("histograma dos usuários pertentences ao papel: " + ((Usuario)arvoreTest1.getValor()).getPapel());
                 List<ArvoreModelo> arvoreUsuariosPapel = this.arvoreConfiguracoes.filtrarPorPapel(((Usuario)arvoreTest1.getValor()).getPapel());
                 HistogramaDao histogramaUsuariosPapel = new HistogramaDao(arvoreUsuariosPapel);
+
+                System.out.println("");
                 System.out.println("Histograma do perfil médio dos usuários de mesmo papel: ");
                 histogramaUsuariosPapel.imprimir();
+
+                System.out.println("");
                 System.out.println("Distância do usuário para o perfil médio: " + histogramaUsuario.calcularDistancia(histogramaUsuariosPapel));
             } catch (Exception e) {
                 e.printStackTrace();

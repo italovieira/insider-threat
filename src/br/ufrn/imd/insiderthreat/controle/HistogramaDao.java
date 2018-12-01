@@ -46,6 +46,15 @@ public class HistogramaDao {
 	private void gerarHistograma(List<ArvoreModelo> arvores) {
 		for (ArvoreModelo arvore : arvores) {
 			gerarHistograma(arvore);
+
+            try {
+                HistogramaDao histogramaUsuario = new HistogramaDao(arvore);
+                System.out.print("ID: " + ((Usuario)arvore.getValor()).getId() + " | ");
+                System.out.println("NOME: " + ((Usuario)arvore.getValor()).getNome());
+                histogramaUsuario.imprimir();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 		}
 		
 		int n = arvores.size();
