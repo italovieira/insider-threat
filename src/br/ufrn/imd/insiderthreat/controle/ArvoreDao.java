@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import br.ufrn.imd.insiderthreat.filtro.FiltroPorData;
+import br.ufrn.imd.insiderthreat.filtro.FiltroPorUsuario;
 import br.ufrn.imd.insiderthreat.model.Atributos;
 import br.ufrn.imd.insiderthreat.model.Modelo;
 import br.ufrn.imd.insiderthreat.model.Pc;
@@ -27,6 +28,31 @@ public class ArvoreDao {
 
     public void setUsuariosArvore(Map<String, ArvoreModelo> usuariosArvore) {
         this.usuariosArvore = usuariosArvore;
+    }
+
+
+    public void criarArvorePerfisUsuarios(String campo, String filtroBusca){
+        ProcessamentoUsuarios processamentoUsuarios = new ProcessamentoUsuarios();
+        HashMap<String, String> filtro = new HashMap<String, String>();
+
+        filtro.put(campo, filtroBusca);
+        List<Usuario> usuarios = processamentoUsuarios.processarComFiltro(filtro);
+
+        Map<String, ArvoreModelo> usuariosArvore = new HashMap<>();
+        for (Usuario usuario : usuarios) {
+            usuariosArvore.put("DTAA/" + usuario.getId(), new ArvoreModelo(usuario));
+        }
+
+        this.usuariosArvore = usuariosArvore;
+    }
+
+    public void criarNoAtributosPCComFiltroUsuario(Usuario usuario){
+        ProcessamentoAtributos processamentoAtributos = new ProcessamentoAtributos();
+        List<Atributos> atributos = processamentoAtributos.processarComFiltro(new FiltroPorUsuario(usuario));
+
+        for (Atributos atributo : atributos) {
+            criarNoPcComFiltro(atributo);
+        }
     }
 
 

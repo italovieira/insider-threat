@@ -4,13 +4,15 @@ public class Main {
 
 	public static void main(String[] args) {
 		Funcionalidades funcionalidades = new Funcionalidades();
+		funcionalidades.iniciarAplicacao();
 		//funcionalidades.buscarUsuariosPorPeriodo();
-		//funcionalidades.buscarUsuariosPorPapel();
+		//funcionalidades.buscarUsuariosPorPapelPerfil();
 		//ArvoreDao arvoreConfiguracoes = new ArvoreDao();
 		//arvoreConfiguracoes.processarUsuarios();
 		
-		funcionalidades.buscarUsuariosPorPeriodo();
-		funcionalidades.test1();
+		//funcionalidades.buscarUsuariosPorPeriodo();
+		//funcionalidades.buscarUsuariosPorIdPerfil();
+		//funcionalidades.test1();
 	}
 
 }
