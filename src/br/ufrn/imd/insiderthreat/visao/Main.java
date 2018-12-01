@@ -9,10 +9,11 @@ public class Main {
 		//funcionalidades.buscarUsuariosPorPapelPerfil();
 		//ArvoreDao arvoreConfiguracoes = new ArvoreDao();
 		//arvoreConfiguracoes.processarUsuarios();
-		
+
 		//funcionalidades.buscarUsuariosPorPeriodo();
 		//funcionalidades.buscarUsuariosPorIdPerfil();
 		//funcionalidades.test1();
+        //funcionalidades.test1();
 	}
 
 }

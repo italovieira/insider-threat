@@ -46,16 +46,6 @@ public class ArvoreDao {
         this.usuariosArvore = usuariosArvore;
     }
 
-    public void criarNoAtributosPCComFiltroUsuario(Usuario usuario){
-        ProcessamentoAtributos processamentoAtributos = new ProcessamentoAtributos();
-        List<Atributos> atributos = processamentoAtributos.processarComFiltro(new FiltroPorUsuario(usuario));
-
-        for (Atributos atributo : atributos) {
-            criarNoPcComFiltro(atributo);
-        }
-    }
-
-
     public void criarArvoreUsuariosComFiltro(LocalDate filtroDateInicial, LocalDate filtroDateFinal){
         ProcessamentoUsuarios processamentoUsuarios = new ProcessamentoUsuarios();
         //busca todos os usuários e põe na arvore.

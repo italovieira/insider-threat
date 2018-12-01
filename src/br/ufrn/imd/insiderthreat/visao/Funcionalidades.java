@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Scanner;
 
 import br.ufrn.imd.insiderthreat.controle.ArvoreDao;
-import br.ufrn.imd.insiderthreat.controle.AtividadeDAO;
-import br.ufrn.imd.insiderthreat.controle.Histograma;
+import br.ufrn.imd.insiderthreat.controle.AtividadeDao;
+import br.ufrn.imd.insiderthreat.controle.HistogramaDao;
 import br.ufrn.imd.insiderthreat.model.Atributos;
 import br.ufrn.imd.insiderthreat.model.Modelo;
 import br.ufrn.imd.insiderthreat.model.Usuario;
@@ -64,7 +64,7 @@ public class Funcionalidades {
             System.out.println("[1] - Buscar usuário da listagem e exibir média de atividades de acordo com o papel");
             System.out.println("[2] - Buscar usuário da listagem e exibir histograma de acordo com o papel");
             System.out.println("[3] - Buscar usuários de determinado papel");
-            System.out.println("[4] - Apresentar lista de usuários novamente");
+            System.out.println("[4] - Apresentar lista de usuários novamente \n");
             System.out.println("<<OUTRAS OPÇÕES>>");
             System.out.println("[5] - Voltar ao menu inicial");
             System.out.println("[0] - Sair");
@@ -77,7 +77,7 @@ public class Funcionalidades {
                     this.mostrarMediaAtividadeUsuarioPapel();
                     break;
                 case 2:
-                    //this.buscarUsuariosPorIdPerfil();
+                    this.gerarHIstogramaUsuarioPapel();
                     break;
                 case 3:
                     this.buscarUsuariosPorPapel();
@@ -174,7 +174,7 @@ public class Funcionalidades {
 
         System.out.println("Processando...");
 
-        AtividadeDAO atividadesUtilitarios = new AtividadeDAO();
+        AtividadeDao atividadesUtilitarios = new AtividadeDao();
         atividadesUtilitarios.mediaTarefasUsuarioPapel(this.arvoreConfiguracoes.getUsuariosArvore(), id);
 
         System.out.println("Papel: " + atividadesUtilitarios.getUsuario().getPapel() + " ");
@@ -195,7 +195,7 @@ public class Funcionalidades {
         System.out.println("Processando...");
         List<ArvoreModelo> arvoresFiltradas = new ArrayList(this.arvoreConfiguracoes.filtrarPorPapel(papel).values());
 
-    	listarUsuarios(arvoresFiltradas);
+        listarUsuarios(arvoresFiltradas);
     }
 
     private void listarUsuarios(List<ArvoreModelo> arvores){
@@ -220,6 +220,42 @@ public class Funcionalidades {
         List<ArvoreModelo> arvores = new ArrayList<ArvoreModelo>(this.arvoreConfiguracoes.getUsuariosArvore().values());
     	listarUsuarios(arvores);
     }
+
+    public void gerarHIstogramaUsuarioPapel(){
+        Scanner entradaDeDados = new Scanner(System.in);
+        System.out.println("________________________________________________________________________________");
+        System.out.println("BUSCAR DETERMINADO USUÁRIO DA LISTAGEM ACIMA:");
+        System.out.print("Informe o id do usuário:");
+        String id = entradaDeDados.nextLine();
+
+        System.out.println("Processando...\n");
+
+        List<ArvoreModelo> arvoresFiltradas = new ArrayList<>();
+        arvoresFiltradas.add(this.arvoreConfiguracoes.getUsuariosArvore().get("DTAA/" + id));
+
+        if(arvoresFiltradas.isEmpty()){
+            System.out.println("NÃO FORAM ENCONTRADOS USUÁRIOS COM O ID INFORMADO");
+        }else {
+            System.out.println("HISTOGRAMA RESULTADO:\n");
+            ArvoreModelo arvoreTest1 = arvoresFiltradas.get(0);
+            try {
+                HistogramaDao histogramaUsuario = new HistogramaDao(arvoreTest1);
+                System.out.print("Histograma do usuário: ");
+                System.out.println(((Usuario)arvoreTest1.getValor()).getNome() + "\n");
+                histogramaUsuario.imprimir();
+
+                List<ArvoreModelo> arvoreUsuariosPapel = new ArrayList(this.arvoreConfiguracoes.filtrarPorPapel(((Usuario)arvoreTest1.getValor()).getPapel()).values());
+                HistogramaDao histogramaUsuariosPapel = new HistogramaDao(arvoreUsuariosPapel);
+                System.out.println("Histograma de todos os usuários de mesmo papel: ");
+                histogramaUsuariosPapel.imprimir();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+
+        }
+    }
     
     
 
@@ -241,15 +277,15 @@ public class Funcionalidades {
         //imprimirArvore(arvoreTest2);
         
 		try {
-			Histograma h1 = new Histograma(arvoreTest1);
-			Histograma h2 = new Histograma(arvoreTest2);
-			Histograma h3 = new Histograma(arvoresFiltradas);
+			HistogramaDao h1 = new HistogramaDao(arvoreTest1);
+			HistogramaDao h2 = new HistogramaDao(arvoreTest2);
+			HistogramaDao h3 = new HistogramaDao(arvoresFiltradas);
 			
-			System.out.println("Histograma dos perfis dos 2 usuários:");
+			System.out.println("HistogramaDao dos perfis dos 2 usuários:");
 			h1.imprimir();
 			h2.imprimir();
 
-			System.out.println("Histograma da média do perfil dos 2 usuários:");
+			System.out.println("HistogramaDao da média do perfil dos 2 usuários:");
 			h3.imprimir();
 			System.out.println("Distância " + h1.calcularDistancia(h3));
 		} catch (Exception e) {

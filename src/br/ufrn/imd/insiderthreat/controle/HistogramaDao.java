@@ -9,12 +9,12 @@ import br.ufrn.imd.insiderthreat.model.Usuario;
 import br.ufrn.imd.insiderthreat.util.Arvore;
 import br.ufrn.imd.insiderthreat.util.ArvoreModelo;
 
-public class Histograma {
+public class HistogramaDao {
 	private int[] horas = new int[24];
 	private Usuario usuario;
 	private String papel;
 	
-	public Histograma(ArvoreModelo arvore) throws Exception {
+	public HistogramaDao(ArvoreModelo arvore) throws Exception {
 		if (!(arvore.getValor() instanceof Usuario)) {
 			throw new Exception("Não é uma árvore de usuários");
 		}
@@ -23,7 +23,7 @@ public class Histograma {
 		gerarHistograma(arvore);
 	}
 
-	public Histograma(List<ArvoreModelo> arvores)  {
+	public HistogramaDao(List<ArvoreModelo> arvores)  {
 		gerarHistograma(arvores);
 		Usuario usuario = (Usuario) arvores.get(0).getValor();
 		this.papel = usuario.getPapel();
@@ -62,11 +62,11 @@ public class Histograma {
 		horas[hora]++;
 	}
 	
-	public double calcularDistancia(Histograma histograma) {
+	public double calcularDistancia(HistogramaDao histogramaDao) {
 		double distancia = 0;
 
 		for (int i = 0; i < 24; i++) {
-			distancia += Math.pow(this.horas[i] - histograma.horas[i], 2);
+			distancia += Math.pow((this.horas[i] - histogramaDao.horas[i]), 2);
 		}
 
 		return Math.sqrt(distancia);

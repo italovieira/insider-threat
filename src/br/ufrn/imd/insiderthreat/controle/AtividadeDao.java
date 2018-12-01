@@ -6,13 +6,10 @@ import br.ufrn.imd.insiderthreat.model.Usuario;
 import br.ufrn.imd.insiderthreat.util.Arvore;
 import br.ufrn.imd.insiderthreat.util.ArvoreModelo;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Predicate;
 
-public class AtividadeDAO {
+public class AtividadeDao {
     private int quantidadeTarefasUsuario;
     private int quantidadetarefasUsuariosPapel;
     private int totalUsuariosPapel;
@@ -35,7 +32,7 @@ public class AtividadeDAO {
     }
 
 
-    public AtividadeDAO(){
+    public AtividadeDao(){
         this.quantidadeTarefasUsuario = 0;
         this.quantidadetarefasUsuariosPapel = 0;
         this.totalUsuariosPapel = 0;
