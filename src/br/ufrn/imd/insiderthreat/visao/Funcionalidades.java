@@ -1,13 +1,16 @@
 package br.ufrn.imd.insiderthreat.visao;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
 import br.ufrn.imd.insiderthreat.controle.ArvoreDao;
 import br.ufrn.imd.insiderthreat.controle.AtividadeDao;
 import br.ufrn.imd.insiderthreat.controle.HistogramaDao;
+import br.ufrn.imd.insiderthreat.excecao.DataValidacaoInicioFimException;
 import br.ufrn.imd.insiderthreat.model.Atributos;
 import br.ufrn.imd.insiderthreat.model.Modelo;
 import br.ufrn.imd.insiderthreat.model.Usuario;
@@ -22,7 +25,9 @@ public class Funcionalidades {
         this.arvoreConfiguracoes = new ArvoreDao();
     }
 
-    public void iniciarAplicacao(){
+    public void iniciarAplicacao() throws InputMismatchException  {
+        Scanner entradaDeDados = new Scanner(System.in);
+
         int opcao;
         do {
             System.out.println("________________________________________________________________________________");
@@ -35,12 +40,17 @@ public class Funcionalidades {
             System.out.println("<<OUTRAS OPÇÕES>>");
             System.out.println("[0] - Sair");
             System.out.print("Informe escolha: ");
-            Scanner entradaDeDados = new Scanner(System.in);
-            opcao = entradaDeDados.nextInt();
 
-            switch (opcao){
+            opcao = entradaDeDados.nextInt();
+            switch (opcao) {
                 case 1:
-                    this.buscarUsuariosPorPeriodo();
+                    try{
+                        this.buscarUsuariosPorPeriodo();
+                    }catch (DateTimeParseException e){
+                        System.err.println("Erro: Data inválida.");
+                    }catch (DataValidacaoInicioFimException ex){
+                        System.err.println(ex.getMessage());
+                    }
                     break;
                 case 2:
                     this.buscarUsuariosPorIdPerfil();
@@ -49,14 +59,15 @@ public class Funcionalidades {
                     this.buscarUsuariosPorPapelPerfil();
                     break;
                 case 0:
-                default: System.exit(0);
+                default:
+                    System.exit(0);
                     break;
             }
-        }while (opcao != 0);
+        } while (opcao != 0);
 
     }
 
-    public void subMenuFuncionalidades(){
+    public void subMenuFuncionalidades() throws InputMismatchException{
         int opcao;
         do {
             System.out.println("________________________________________________________________________________");
@@ -142,27 +153,38 @@ public class Funcionalidades {
 
     }
 
-    public void buscarUsuariosPorPeriodo(){
-        Scanner entradaDeDados = new Scanner(System.in);
-        System.out.println("________________________________________________________________________________");
-        System.out.println("FILTRAR USUÁRIOS EM DETERMINADO PERÍODO");
-        System.out.print("Informe a data de inicio (##/##/####): ");
-        String dataInicial = entradaDeDados.nextLine();
+    public void buscarUsuariosPorPeriodo() throws DateTimeParseException, DataValidacaoInicioFimException {
+        try {
+            Scanner entradaDeDados = new Scanner(System.in);
+            System.out.println("________________________________________________________________________________");
+            System.out.println("FILTRAR USUÁRIOS EM DETERMINADO PERÍODO");
+            System.out.print("Informe a data de inicio (DD/MM/AAAA): ");
+            String dataInicial = entradaDeDados.nextLine();
 
-        System.out.print("Informe a data de Fim: (##/##/####): ");
-        String dataFinal = entradaDeDados.nextLine();
+            System.out.print("Informe a data de Fim: (DD/MM/AAAA): ");
+            String dataFinal = entradaDeDados.nextLine();
 
-        //TODO adicionar um try catch para validação das datas
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate dataIni = LocalDate.parse(dataInicial, formato);
-        LocalDate dataFin = LocalDate.parse(dataFinal, formato);
+            //TODO adicionar um try catch para validação das datas
+            DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate dataIni = LocalDate.parse(dataInicial, formato);
+            LocalDate dataFin = LocalDate.parse(dataFinal, formato);
 
-        System.out.println("Processando...");
+            //verifica se a data fim é maior que a data inicio
+            if(dataIni.compareTo(dataFin) == 1){
+                throw new DataValidacaoInicioFimException();
+            }
 
-        this.arvoreConfiguracoes.criarArvoreUsuariosComFiltro(dataIni, dataFin);
+            System.out.println("Processando...");
 
-        this.listarUsuarios();
-        this.subMenuFuncionalidades();
+            this.arvoreConfiguracoes.criarArvoreUsuariosComFiltro(dataIni, dataFin);
+
+            this.listarUsuarios();
+
+            this.subMenuFuncionalidades();
+        }catch (InputMismatchException e){
+            System.err.println("Erro: O número digitado não corresponde a um inteiro.");
+            System.exit(0);
+        }
     }
 
     public void mostrarMediaAtividadeUsuarioPapel(){
