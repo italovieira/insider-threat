@@ -246,8 +246,9 @@ public class Funcionalidades {
 
                 List<ArvoreModelo> arvoreUsuariosPapel = new ArrayList(this.arvoreConfiguracoes.filtrarPorPapel(((Usuario)arvoreTest1.getValor()).getPapel()).values());
                 HistogramaDao histogramaUsuariosPapel = new HistogramaDao(arvoreUsuariosPapel);
-                System.out.println("Histograma de todos os usuários de mesmo papel: ");
+                System.out.println("Histograma do perfil médio dos usuários de mesmo papel: ");
                 histogramaUsuariosPapel.imprimir();
+                System.out.println("Distância do usuário para o perfil médio: " + histogramaUsuario.calcularDistancia(histogramaUsuariosPapel));
             } catch (Exception e) {
                 e.printStackTrace();
             }
