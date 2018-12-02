@@ -6,7 +6,6 @@ import br.ufrn.imd.insiderthreat.util.Arvore;
 import br.ufrn.imd.insiderthreat.util.ArvoreModelo;
 
 import java.util.*;
-import java.util.function.Predicate;
 
 /**
  * @author italo

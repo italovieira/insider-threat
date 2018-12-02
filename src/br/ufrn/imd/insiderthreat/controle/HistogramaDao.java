@@ -16,9 +16,6 @@ import br.ufrn.imd.insiderthreat.util.ArvoreModelo;
  */
 public class HistogramaDao {
 	private int[] horas = new int[24];
-	private Usuario usuario;
-	private String papel;
-	
 
 	/**
 	 * @see gerarHistograma
@@ -29,7 +26,6 @@ public class HistogramaDao {
 			throw new Exception("Não é uma árvore de usuários");
 		}
 
-		this.usuario = (Usuario) arvore.getValor();
 		gerarHistograma(arvore);
 	}
 
@@ -39,8 +35,6 @@ public class HistogramaDao {
 	 */
 	public HistogramaDao(List<ArvoreModelo> arvores)  {
 		gerarHistograma(arvores);
-		Usuario usuario = (Usuario) arvores.get(0).getValor();
-		this.papel = usuario.getPapel();
 	}
 
 	/**

@@ -299,7 +299,9 @@ public class Align {
         }
 
         private class Line extends ArrayList<String> {
-            public Line(List<String> line) {
+			private static final long serialVersionUID = 1L;
+
+			public Line(List<String> line) {
                 super(line);
             }
         }

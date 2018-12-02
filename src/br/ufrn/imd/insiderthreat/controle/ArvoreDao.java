@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import br.ufrn.imd.insiderthreat.filtro.FiltroPorData;
-import br.ufrn.imd.insiderthreat.filtro.FiltroPorUsuario;
 import br.ufrn.imd.insiderthreat.model.Atividade;
 import br.ufrn.imd.insiderthreat.model.Modelo;
 import br.ufrn.imd.insiderthreat.model.Pc;
