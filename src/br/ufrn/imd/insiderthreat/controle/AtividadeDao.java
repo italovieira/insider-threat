@@ -23,6 +23,7 @@ public class AtividadeDao {
         this.quantidadeTarefasUsuario = 0;
         this.quantidadetarefasUsuariosPapel = 0;
         this.totalUsuariosPapel = 0;
+        this.usuario = null;
     }
 
     /**
@@ -66,19 +67,23 @@ public class AtividadeDao {
      */
     public void mediaTarefasUsuarioPapel(Map<String, ArvoreModelo> usuariosArvore, String usuarioId){
         Arvore<Modelo> arvoreUsuario = usuariosArvore.get("DTAA/" + usuarioId);
-        for(Arvore<Modelo> arvorePc : arvoreUsuario.getFilhos()){
-            this.quantidadeTarefasUsuario += arvorePc.getFilhos().size();
+
+        if(arvoreUsuario != null){
+            for(Arvore<Modelo> arvorePc : arvoreUsuario.getFilhos()){
+                this.quantidadeTarefasUsuario += arvorePc.getFilhos().size();
+            }
+
+            this.usuario = ((Usuario)arvoreUsuario.getValor());
+            for (Map.Entry<String, ArvoreModelo> arvoreModelo : usuariosArvore.entrySet()) {
+                if(((Usuario) arvoreModelo.getValue().getValor()).getPapel().equals(this.usuario.getPapel())){
+                    this.totalUsuariosPapel ++;
+                    for(Arvore<Modelo> arvorePcUsuarios : arvoreModelo.getValue().getFilhos()){
+                        this.quantidadetarefasUsuariosPapel += arvorePcUsuarios.getFilhos().size();
+                    }
+                }
+                // ...
+            }
         }
 
-        this.usuario = ((Usuario)arvoreUsuario.getValor());
-        for (Map.Entry<String, ArvoreModelo> arvoreModelo : usuariosArvore.entrySet()) {
-            if(((Usuario) arvoreModelo.getValue().getValor()).getPapel().equals(this.usuario.getPapel())){
-                this.totalUsuariosPapel ++;
-                for(Arvore<Modelo> arvorePcUsuarios : arvoreModelo.getValue().getFilhos()){
-                    this.quantidadetarefasUsuariosPapel += arvorePcUsuarios.getFilhos().size();
-                }
-            }
-            // ...
-        }
     }
 }

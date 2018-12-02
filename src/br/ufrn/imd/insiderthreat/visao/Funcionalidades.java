@@ -226,16 +226,20 @@ public class Funcionalidades {
 
         AtividadeDao atividadesUtilitarios = new AtividadeDao();
         atividadesUtilitarios.mediaTarefasUsuarioPapel(this.arvoreConfiguracoes.getUsuariosArvore(), id);
-
-        Align align = new Align();
-        align.addLine("Papel:", atividadesUtilitarios.getUsuario().getPapel());
-        align.output((String s) -> System.out.println(s));
-        Align align1 = new Align();
-        align1.addLine("Usuário Analisado:", atividadesUtilitarios.getUsuario().getNome(), "Quantidade de atividades:", Integer.toString(atividadesUtilitarios.getQuantidadeTarefasUsuario()));
-        align1.output((String s) -> System.out.println(s));
-        Align align2 = new Align();
-        align2.addLine("Quantidade de Usuários do papel: ", Integer.toString(atividadesUtilitarios.getTotalUsuariosPapel()), "Quantidade de atividades: ", Integer.toString(atividadesUtilitarios.getQuantidadetarefasUsuariosPapel()), "Média de atividades por usuário: " , Integer.toString(atividadesUtilitarios.getQuantidadetarefasUsuariosPapel() / atividadesUtilitarios.getTotalUsuariosPapel()));
-        align2.output((String s) -> System.out.println(s));
+        if(atividadesUtilitarios.getUsuario() != null) {
+            Align align = new Align();
+            align.addLine("Papel:", atividadesUtilitarios.getUsuario().getPapel());
+            align.output((String s) -> System.out.println(s));
+            Align align1 = new Align();
+            align1.addLine("Usuário Analisado:", atividadesUtilitarios.getUsuario().getNome(), "Quantidade de atividades:", Integer.toString(atividadesUtilitarios.getQuantidadeTarefasUsuario()));
+            align1.output((String s) -> System.out.println(s));
+            Align align2 = new Align();
+            align2.addLine("Quantidade de Usuários do papel: ", Integer.toString(atividadesUtilitarios.getTotalUsuariosPapel()), "Quantidade de atividades: ", Integer.toString(atividadesUtilitarios.getQuantidadetarefasUsuariosPapel()), "Média de atividades por usuário: ", Integer.toString(atividadesUtilitarios.getQuantidadetarefasUsuariosPapel() / atividadesUtilitarios.getTotalUsuariosPapel()));
+            align2.output((String s) -> System.out.println(s));
+        }else{
+            System.out.println("________________________________________________________________________________");
+            System.out.println("Não foi encontrado nenhum usuário com o Id informado.");
+        }
     }
     
     /**
@@ -305,7 +309,8 @@ public class Funcionalidades {
         arvoresFiltradas.add(this.arvoreConfiguracoes.getUsuariosArvore().get("DTAA/" + id));
 
         if(arvoresFiltradas.get(0) == null){
-            System.out.println("NÃO FORAM ENCONTRADOS USUÁRIOS COM O ID INFORMADO");
+            System.out.println("________________________________________________________________________________");
+            System.out.println("Não foram encontrados usuários com o id informado");
         }else {
             System.out.println("HISTOGRAMA RESULTADO:\n");
             ArvoreModelo arvoreTest1 = arvoresFiltradas.get(0);
