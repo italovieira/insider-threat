@@ -9,15 +9,19 @@ import java.util.Map.Entry;
 
 import br.ufrn.imd.insiderthreat.filtro.FiltroPorData;
 import br.ufrn.imd.insiderthreat.filtro.FiltroPorUsuario;
-import br.ufrn.imd.insiderthreat.model.Atributos;
+import br.ufrn.imd.insiderthreat.model.Atividade;
 import br.ufrn.imd.insiderthreat.model.Modelo;
 import br.ufrn.imd.insiderthreat.model.Pc;
 import br.ufrn.imd.insiderthreat.model.Usuario;
-import br.ufrn.imd.insiderthreat.processamento.ProcessamentoAtributos;
+import br.ufrn.imd.insiderthreat.processamento.ProcessamentoAtividades;
 import br.ufrn.imd.insiderthreat.processamento.ProcessamentoUsuarios;
 import br.ufrn.imd.insiderthreat.util.Arvore;
 import br.ufrn.imd.insiderthreat.util.ArvoreModelo;
 
+/**
+ * @author claudio
+ *
+ */
 public class ArvoreDao {
 
     private Map<String, ArvoreModelo> usuariosArvore;
@@ -26,14 +30,26 @@ public class ArvoreDao {
     }
 
 
+    /**
+     * @return a floresta de árvores dos usuários
+     */
     public Map<String, ArvoreModelo> getUsuariosArvore() {
         return usuariosArvore;
     }
 
+    /**
+     * Define a floresta de árvores dos usuários como um argumento já existente
+     * @param usuariosArvore argumento que indica qual será a floresta de árvores
+     */
     public void setUsuariosArvore(Map<String, ArvoreModelo> usuariosArvore) {
         this.usuariosArvore = usuariosArvore;
     }
 
+    /**
+     * Gera a floresta de árvore a partir dos usuários filtrados 
+     * @param campo qual o campo do usuário que vai ser filtrado 
+     * @param filtroBusca qual o filtro vai ser aplicado ao campo do usuário escolhido
+     */
     public void criarArvorePerfisUsuarios(String campo, String filtroBusca){
         ProcessamentoUsuarios processamentoUsuarios = new ProcessamentoUsuarios();
         HashMap<String, String> filtro = new HashMap<String, String>();
@@ -49,6 +65,12 @@ public class ArvoreDao {
         this.usuariosArvore = usuariosArvore;
     }
 
+    /**
+     * Gera a floresta de árvores dos usuários que possuem atividades no intervalo de tempo indicado
+     * 
+     * @param filtroDateInicial início do intervalo de tempo 
+     * @param filtroDateFinal fim do intervalo de tempo
+     */
     public void criarArvoreUsuariosComFiltro(LocalDate filtroDateInicial, LocalDate filtroDateFinal){
         ProcessamentoUsuarios processamentoUsuarios = new ProcessamentoUsuarios();
         //busca todos os usuários e põe na arvore.
@@ -69,6 +91,9 @@ public class ArvoreDao {
 		removerUsuariosSemAtividade();
     }
     
+    /**
+     * Deixa na floresta apenas as árvores dos usuários que tem atividades
+     */
     private void removerUsuariosSemAtividade() {
     	usuariosArvore.entrySet().removeIf(x -> !x.getValue().possuiFilhos());
     }
@@ -87,17 +112,25 @@ public class ArvoreDao {
 		return arvoresFiltradas;
     }
 
+    /**
+     * @param filtroDateInicial
+     * @param filtroDateFinal
+     */
     public void criarNoAtributosPCComFiltro(LocalDate filtroDateInicial, LocalDate filtroDateFinal){
-        ProcessamentoAtributos processamentoAtributos = new ProcessamentoAtributos();
-		List<Atributos> atributos = processamentoAtributos.processarComFiltro(new FiltroPorData(filtroDateInicial, filtroDateFinal));
+        ProcessamentoAtividades processamentoAtividades = new ProcessamentoAtividades();
+		List<Atividade> atividades = processamentoAtividades.processarComFiltro(new FiltroPorData(filtroDateInicial, filtroDateFinal));
 
-        for (Atributos atributo : atributos) {
+        for (Atividade atributo : atividades) {
             criarNoPcComFiltro(atributo);
         }
     }
 
-    public void criarNoPcComFiltro(Atributos atributo) {
-        ArvoreModelo arvoreUsuario = getUsuariosArvore().get(atributo.getUsuario());
+    /**
+     * Adiciona a atividade a árvore do usuário que a executou
+     * @param atividade executada pelo usuário
+     */
+    public void criarNoPcComFiltro(Atividade atividade) {
+        ArvoreModelo arvoreUsuario = getUsuariosArvore().get(atividade.getUsuario());
 
         //compara se a data do dispositivo está entre a data especificada
         /*
@@ -106,8 +139,8 @@ public class ArvoreDao {
          * 1  - dataDispositivo > filtroDateInicial
          * */
 
-			Pc pc = new Pc(atributo.getPc());
-			ArvoreModelo arvoreAtributo = new ArvoreModelo(atributo);
+			Pc pc = new Pc(atividade.getPc());
+			ArvoreModelo arvoreAtributo = new ArvoreModelo(atividade);
 
             if(!arvoreUsuario.getFilhos().isEmpty()){
                 //variavel para verificar se o nó de dispositivo já foi inserido em algum nó pc

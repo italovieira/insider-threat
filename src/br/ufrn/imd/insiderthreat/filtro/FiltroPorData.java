@@ -4,18 +4,31 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-import br.ufrn.imd.insiderthreat.model.Atributos;
+import br.ufrn.imd.insiderthreat.model.Atividade;
 
-public class FiltroPorData implements Filtro<Atributos> {
+/**
+ * @author italo
+ *
+ * Fara a validação da atividade para posterior filtragem, verificando se a data da atividade está no intervalo de tempo determinado  
+ */
+public class FiltroPorData implements Filtro<Atividade> {
 	private LocalDate filtroDateInicial;
 	private LocalDate filtroDateFinal;
 
+	/**
+	 * @param filtroDateInicial Início do intervalo de tempo
+	 * @param filtroDateFinal Fim do intervalo de tempo
+	 */
 	public FiltroPorData(LocalDate filtroDateInicial, LocalDate filtroDateFinal) {
 		this.filtroDateInicial = filtroDateInicial;
 		this.filtroDateFinal = filtroDateFinal;
 	}
 	
-	public boolean validar(Atributos atributo) {
+	/*
+	 * @see br.ufrn.imd.insiderthreat.filtro.Filtro#validar(java.lang.Object)
+	 */
+	@Override
+	public boolean validar(Atividade atributo) {
 		LocalDate dataAtributo = null;
         try {
         	dataAtributo = LocalDate.parse(atributo.getData(), DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss"));

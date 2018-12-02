@@ -5,6 +5,11 @@ import br.ufrn.imd.insiderthreat.util.Align;
 
 import java.util.*;
 
+/**
+ * @author claudio
+ *
+ * Para criar o ranking dos perfis dos usuários utilizando como métrica a distância euclidiana
+ */
 public class RankingDao {
     private Map<Usuario, Double> rankingMap;
 
@@ -12,15 +17,27 @@ public class RankingDao {
         rankingMap = new HashMap<Usuario, Double>();
     }
 
+    /**
+     * @param usuario
+     * @param distancia distância euclidiana do usuário
+     */
     public void rankingAdd(Usuario usuario, Double distancia){
         rankingMap.put(usuario, distancia);
     }
 
+    /**
+     * Exibe o ranking dos perfis em ordem
+     */
     public void imprimirRankingOrdenado(){
         Map<Usuario, Double> sortedMap = sortByValue(rankingMap);
         printMap(sortedMap);
     }
 
+    /**
+     * Imprime a distância euclidiana do conjunto de usuários
+     * 
+     * @param map Registro com a distância dos usuários a serem exibidas 
+     */
     public static <K, V> void printMap(Map<K, V> map) {
         Align align = new Align();
         align.addLine("Id usuário", "Nome usuário", "Distância");
@@ -30,6 +47,12 @@ public class RankingDao {
         align.output((String s) -> System.out.println(s));
     }
 
+    /**
+     * Ordena o map por distância euclidiana que possibilitará ser impresso em ordem
+     * 
+     * @param unsortMap map a ser ordenado
+     * @return map ordenado com base na distância euclidiana
+     */
     private static Map<Usuario, Double> sortByValue(Map<Usuario, Double> unsortMap) {
         List<Map.Entry<Usuario, Double>> list =
                 new LinkedList<Map.Entry<Usuario, Double>>(unsortMap.entrySet());

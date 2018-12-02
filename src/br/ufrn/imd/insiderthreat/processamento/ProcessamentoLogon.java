@@ -5,6 +5,11 @@ import br.ufrn.imd.insiderthreat.model.Logon;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author italo
+ *
+ * Implementação concreta do processamento para a entidade de Logon
+ */
 public class ProcessamentoLogon extends Processamento<Logon> {
     private static final String FILE = "log/logon.csv";
     private static final String DELIMITADOR = ",";

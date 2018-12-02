@@ -9,13 +9,19 @@ import br.ufrn.imd.insiderthreat.controle.AtividadeDao;
 import br.ufrn.imd.insiderthreat.controle.HistogramaDao;
 import br.ufrn.imd.insiderthreat.controle.RankingDao;
 import br.ufrn.imd.insiderthreat.excecao.DataValidacaoInicioFimException;
-import br.ufrn.imd.insiderthreat.model.Atributos;
+import br.ufrn.imd.insiderthreat.model.Atividade;
 import br.ufrn.imd.insiderthreat.model.Modelo;
 import br.ufrn.imd.insiderthreat.model.Usuario;
 import br.ufrn.imd.insiderthreat.util.Align;
 import br.ufrn.imd.insiderthreat.util.Arvore;
 import br.ufrn.imd.insiderthreat.util.ArvoreModelo;
 
+/**
+ * @author claudio
+ *
+ * Responsável por exibir a interação com o operador do sistema
+ * Faz uso das outras classes para realizar os comandos principais do sistema
+ */
 public class Funcionalidades {
 
     private ArvoreDao arvoreConfiguracoes;
@@ -24,6 +30,9 @@ public class Funcionalidades {
         this.arvoreConfiguracoes = new ArvoreDao();
     }
 
+    /**
+     * Exibe o menu inicial do sistema, pelo qual o operador irá "navegar" pelas opções 
+     */
     public void iniciarAplicacao() throws InputMismatchException  {
         Scanner entradaDeDados = new Scanner(System.in);
 
@@ -66,6 +75,9 @@ public class Funcionalidades {
 
     }
 
+    /**
+     * Submenu acionado com algumas opções de navegação do menu principal
+     */
     public void subMenuFuncionalidades() throws InputMismatchException{
         int opcao;
         do {
@@ -106,6 +118,9 @@ public class Funcionalidades {
 
     }
 
+    /**
+     * Mostra o perfil do usuário indicado
+     */
     public void buscarUsuariosPorIdPerfil(){
         Scanner entradaDeDados = new Scanner(System.in);
         System.out.println("________________________________________________________________________________");
@@ -120,6 +135,9 @@ public class Funcionalidades {
         this.mostrarPerfilUsuario(arvores);
     }
 
+    /**
+     * Mostra os perfis dos usuários que desempenham o papel indicado
+     */
     public void buscarUsuariosPorPapelPerfil(){
         Scanner scanner = new Scanner(System.in);
         System.out.println("________________________________________________________________________________");
@@ -133,6 +151,10 @@ public class Funcionalidades {
         this.mostrarPerfilUsuario(arvores);
     }
 
+    /**
+     * Mostra os perfis dos usuários da floresta de árvores
+     * @param arvores floresta de árvores dos usuários
+     */
     private void mostrarPerfilUsuario(List<ArvoreModelo> arvores){
         System.out.println("________________________________________________________________________________");
         if(arvores.isEmpty()){
@@ -152,6 +174,9 @@ public class Funcionalidades {
 
     }
 
+    /**
+     * Exibe os usuários que possuem atividades no intervalo de tempo indicado pelo operador e faz uma chamada ao submenu para dar continuidade aos comandos do operador 
+     */
     public void buscarUsuariosPorPeriodo() throws DateTimeParseException, DataValidacaoInicioFimException {
         try {
             Scanner entradaDeDados = new Scanner(System.in);
@@ -187,6 +212,9 @@ public class Funcionalidades {
         }
     }
 
+    /**
+     * Mostra alguns quantitativos relacionados ao usuário escolhido e aos usuários do mesmo papel no geral 
+     */
     public void mostrarMediaAtividadeUsuarioPapel(){
         Scanner entradaDeDados = new Scanner(System.in);
         System.out.println("________________________________________________________________________________");
@@ -210,6 +238,9 @@ public class Funcionalidades {
         align2.output((String s) -> System.out.println(s));
     }
     
+    /**
+     * Filtra os usuários que desempenham o papel indicado e os exibe
+     */
     public void buscarUsuariosPorPapel() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("________________________________________________________________________________");
@@ -223,6 +254,10 @@ public class Funcionalidades {
         listarUsuarios(arvoresFiltradas);
     }
 
+    /**
+     * Lista os usuários da floresta de árvores indicada
+     * @param arvores floresta de árvores representada como uma lista
+     */
     private void listarUsuarios(List<ArvoreModelo> arvores){
         System.out.println("________________________________________________________________________________");
         if(arvores.isEmpty()){
@@ -246,11 +281,17 @@ public class Funcionalidades {
 
     }
     
+    /**
+     * Lista os usuários a partir da floresta de árvores
+     */
     public void listarUsuarios() {
         List<ArvoreModelo> arvores = new ArrayList<ArvoreModelo>(this.arvoreConfiguracoes.getUsuariosArvore().values());
     	listarUsuarios(arvores);
     }
 
+    /**
+     * A partir da floresta de árvores mostra um comparativo do histograma do usuário escolhido e dos usuários que desempenham o mesmo papel
+     */
     public void gerarHistogramaUsuarioPapel(){
         Scanner entradaDeDados = new Scanner(System.in);
         System.out.println("________________________________________________________________________________");
@@ -316,7 +357,6 @@ public class Funcionalidades {
         }
     }
     
-    
 
     // TODO: remover: apenas para testes
     public void test1() {
@@ -355,8 +395,8 @@ public class Funcionalidades {
     // TODO: remover: apenas para testes
     public void imprimirArvore(Arvore<Modelo> arvore) {
     	 Modelo valor = arvore.getValor();
-    	 if (valor instanceof Atributos) {
-    		 Atributos atributo = (Atributos) valor;
+    	 if (valor instanceof Atividade) {
+    		 Atividade atributo = (Atividade) valor;
     		 System.out.println(atributo.getId() + " | " + atributo.getData() + " | " + atributo.getPc());
     	 }
 
@@ -368,7 +408,4 @@ public class Funcionalidades {
     		 imprimirArvore(arvoreTemp);
     	 }
     }
-
-
-
 }

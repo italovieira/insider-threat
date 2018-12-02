@@ -5,6 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
+/**
+ * Obtido de: https://codereview.stackexchange.com/questions/64407/align-strings-for-output
+ * Utilizada para permitir exibir as listas dos dados no modo texto de forma que fiquem alinhados
+ */
 public class Align {
 
     private String paddingChar = "-";

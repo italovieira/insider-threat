@@ -5,6 +5,12 @@ import java.util.Map;
 
 import br.ufrn.imd.insiderthreat.model.Dispositivo;
 
+/**
+ * @author italo
+ *
+ * Implementação concreta do processamento para a entidade de Pc
+ * 
+ */
 public class ProcessamentoDispositivos extends Processamento<Dispositivo> {
 	private static final String FILE = "log/device.csv";
 	private static final String DELIMITADOR = ",";

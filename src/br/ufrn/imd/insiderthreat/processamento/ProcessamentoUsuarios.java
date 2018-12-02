@@ -5,6 +5,11 @@ import java.util.Map;
 
 import br.ufrn.imd.insiderthreat.model.Usuario;
 
+/**
+ * @author italo
+ *
+ * Implementação concreta do processamento para a entidade de Usuario
+ */
 public class ProcessamentoUsuarios extends Processamento<Usuario> {
 	private static final String FILE = "log/LDAP.csv";
 	private static final String DELIMITADOR = ",";

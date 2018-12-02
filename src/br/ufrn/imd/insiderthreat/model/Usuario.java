@@ -1,5 +1,10 @@
 package br.ufrn.imd.insiderthreat.model;
 
+/**
+ * @author italo
+ *
+ * Entidade Usuario
+ */
 public class Usuario implements Modelo {
 	private String id;
 	private String nome;

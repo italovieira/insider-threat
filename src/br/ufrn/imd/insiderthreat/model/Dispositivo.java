@@ -1,5 +1,10 @@
 package br.ufrn.imd.insiderthreat.model;
 
-public class Dispositivo extends Atributos implements Modelo {
+/**
+ * @author italo
+ *
+ * Entidade dispositivo
+ */
+public class Dispositivo extends Atividade implements Modelo {
 
 }

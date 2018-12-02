@@ -1,6 +1,11 @@
 package br.ufrn.imd.insiderthreat.model;
 
-public class Http extends Atributos implements Modelo {
+/**
+ * @author italo
+ *
+ * Entidade Http
+ */
+public class Http extends Atividade implements Modelo {
 
 }
 

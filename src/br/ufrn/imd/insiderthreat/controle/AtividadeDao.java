@@ -1,6 +1,5 @@
 package br.ufrn.imd.insiderthreat.controle;
 
-import br.ufrn.imd.insiderthreat.model.Atividade;
 import br.ufrn.imd.insiderthreat.model.Modelo;
 import br.ufrn.imd.insiderthreat.model.Usuario;
 import br.ufrn.imd.insiderthreat.util.Arvore;
@@ -9,28 +8,17 @@ import br.ufrn.imd.insiderthreat.util.ArvoreModelo;
 import java.util.*;
 import java.util.function.Predicate;
 
+/**
+ * @author italo
+ *
+ * Responsável por obter quantitativos sobre as tarefas realizadas pelos usuários
+ * 
+ */
 public class AtividadeDao {
     private int quantidadeTarefasUsuario;
     private int quantidadetarefasUsuariosPapel;
     private int totalUsuariosPapel;
     private Usuario usuario;
-
-    public int getQuantidadeTarefasUsuario() {
-        return quantidadeTarefasUsuario;
-    }
-
-    public int getQuantidadetarefasUsuariosPapel() {
-        return quantidadetarefasUsuariosPapel;
-    }
-
-    public int getTotalUsuariosPapel() {
-        return totalUsuariosPapel;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
 
     public AtividadeDao(){
         this.quantidadeTarefasUsuario = 0;
@@ -38,6 +26,45 @@ public class AtividadeDao {
         this.totalUsuariosPapel = 0;
     }
 
+    /**
+     * Indica a quantidade de tarefas realizadas pelo usuários
+     * 
+     * @return quantidade de tarefas do usuário
+     */
+    public int getQuantidadeTarefasUsuario() {
+        return quantidadeTarefasUsuario;
+    }
+
+    /**
+     * Indica a quantidade de tarefas realizadas pelos usuários do papel definido previamente
+     * 
+     * @return quantidade de tarefas dos usuários do papel
+     */
+    public int getQuantidadetarefasUsuariosPapel() {
+        return quantidadetarefasUsuariosPapel;
+    }
+
+    /**
+     * @return Obtém a quantidade de usuários do papel
+     */
+    public int getTotalUsuariosPapel() {
+        return totalUsuariosPapel;
+    }
+
+    /**
+     * @return Obtém a instância do usuário
+     */
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+
+    /**
+     * Calcula a média de tarefas dos usuários do papel
+     * 
+     * @param usuariosArvore floresta de árvores dos usuários de mesmo papel
+     * @param usuarioId id do usuários que será comparado com a média das atividades dos usuários do seu papel
+     */
     public void mediaTarefasUsuarioPapel(Map<String, ArvoreModelo> usuariosArvore, String usuarioId){
         Arvore<Modelo> arvoreUsuario = usuariosArvore.get("DTAA/" + usuarioId);
         for(Arvore<Modelo> arvorePc : arvoreUsuario.getFilhos()){

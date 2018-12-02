@@ -5,6 +5,11 @@ import br.ufrn.imd.insiderthreat.model.Http;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author italo
+ *
+ * Implementação concreta do processamento para a entidade de Http
+ */
 public class ProcessamentoHTTP extends Processamento<Http> {
     private static final String FILE = "log/http.csv";
     private static final String DELIMITADOR = ",";

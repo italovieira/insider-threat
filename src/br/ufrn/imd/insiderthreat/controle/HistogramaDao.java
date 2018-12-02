@@ -3,17 +3,27 @@ package br.ufrn.imd.insiderthreat.controle;
 import java.util.Arrays;
 import java.util.List;
 
-import br.ufrn.imd.insiderthreat.model.Atributos;
+import br.ufrn.imd.insiderthreat.model.Atividade;
 import br.ufrn.imd.insiderthreat.model.Modelo;
 import br.ufrn.imd.insiderthreat.model.Usuario;
 import br.ufrn.imd.insiderthreat.util.Arvore;
 import br.ufrn.imd.insiderthreat.util.ArvoreModelo;
 
+/**
+ * @author italo
+ *
+ * Representação do histograma dos perfis dos usuários ou do perfil médio
+ */
 public class HistogramaDao {
 	private int[] horas = new int[24];
 	private Usuario usuario;
 	private String papel;
 	
+
+	/**
+	 * @see gerarHistograma
+	 * @throws Exception
+	 */
 	public HistogramaDao(ArvoreModelo arvore) throws Exception {
 		if (!(arvore.getValor() instanceof Usuario)) {
 			throw new Exception("Não é uma árvore de usuários");
@@ -23,17 +33,25 @@ public class HistogramaDao {
 		gerarHistograma(arvore);
 	}
 
+	/**
+	 * @see gerarHistograma
+	 * @param arvores
+	 */
 	public HistogramaDao(List<ArvoreModelo> arvores)  {
 		gerarHistograma(arvores);
 		Usuario usuario = (Usuario) arvores.get(0).getValor();
 		this.papel = usuario.getPapel();
 	}
 
+	/**
+	 * Popula a quantidade para cada hora de atividades encontradas na árvore
+	 * @param arvore
+	 */
 	private void gerarHistograma(Arvore<Modelo> arvore) {
 		Modelo modelo = arvore.getValor();
 
-		if (modelo instanceof Atributos) {
-			Atributos atributo = (Atributos) modelo;
+		if (modelo instanceof Atividade) {
+			Atividade atributo = (Atividade) modelo;
 			somarAtividade(atributo);
 			return;
 		}
@@ -43,6 +61,11 @@ public class HistogramaDao {
 		}
 	} 
 
+	
+	/**
+	 * Popula para cada hora a média de atividades para cada árvore do conjunto de árvores
+	 * @param arvores
+	 */
 	private void gerarHistograma(List<ArvoreModelo> arvores) {
 		for (ArvoreModelo arvore : arvores) {
 			gerarHistograma(arvore);
@@ -55,13 +78,23 @@ public class HistogramaDao {
 		}
 	} 
 	
-	private void somarAtividade(Atributos atributo) {
+	/**
+	 * Acumula a quantidade de quantidades em 1 para a hora em que ocorreu a atividade
+	 * @param atributo
+	 */
+	private void somarAtividade(Atividade atributo) {
 		String data = atributo.getData();
 		// Extrai apenas o valor das horas da data
 		short hora = Short.parseShort(data.split(" ")[1].split(":")[0]);
 		horas[hora]++;
 	}
 	
+	/**
+	 * Calcula a distância euclidiana dos dados deste histograma para outro determinado
+	 * 
+	 * @param histogramaDao
+	 * @return a distância euclidiana dos histogramas
+	 */
 	public double calcularDistancia(HistogramaDao histogramaDao) {
 		double distancia = 0;
 
@@ -72,10 +105,10 @@ public class HistogramaDao {
 		return Math.sqrt(distancia);
 	}
 	
-	// TODO: apenas para testes
+	/**
+	 * Imprime separado por vírgulas a quantidade de atividades para cada hora (de 0h a 23h)
+	 */
 	public void imprimir() {
 		System.out.println(Arrays.toString(horas));
 	}
-	
-	
 }

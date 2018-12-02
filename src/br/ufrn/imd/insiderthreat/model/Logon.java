@@ -1,4 +1,9 @@
 package br.ufrn.imd.insiderthreat.model;
 
-public class Logon extends Atributos implements Modelo {
+/**
+ * @author italo
+ *
+ * Entidade Logon
+ */
+public class Logon extends Atividade implements Modelo {
 }
