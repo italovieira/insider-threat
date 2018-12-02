@@ -13,15 +13,7 @@ public class Main {
             System.err.println("O número digitado não corresponde a um inteiro.");
             System.exit(0);
         }
-		//funcionalidades.buscarUsuariosPorPeriodo();
-		//funcionalidades.buscarUsuariosPorPapelPerfil();
-		//ArvoreDao arvoreConfiguracoes = new ArvoreDao();
-		//arvoreConfiguracoes.processarUsuarios();
 
-		//funcionalidades.buscarUsuariosPorPeriodo();
-		//funcionalidades.buscarUsuariosPorIdPerfil();
-		//funcionalidades.test1();
-        //funcionalidades.test1();
 	}
 
 }

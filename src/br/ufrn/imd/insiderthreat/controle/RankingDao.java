@@ -1,6 +1,7 @@
 package br.ufrn.imd.insiderthreat.controle;
 
 import br.ufrn.imd.insiderthreat.model.Usuario;
+import br.ufrn.imd.insiderthreat.util.Align;
 
 import java.util.*;
 
@@ -21,11 +22,12 @@ public class RankingDao {
     }
 
     public static <K, V> void printMap(Map<K, V> map) {
+        Align align = new Align();
+        align.addLine("Id usuário", "Nome usuário", "Distância");
         for (Map.Entry<K, V> entry : map.entrySet()) {
-            System.out.println("Id Usuário : " + ((Usuario)entry.getKey()).getId() + " | "
-                    +"Nome " + ((Usuario)entry.getKey()).getNome() + " | "
-                    + "Distância : " + entry.getValue());
+            align.addLine(((Usuario)entry.getKey()).getId(), ((Usuario)entry.getKey()).getNome(), Double.toString((Double)entry.getValue()));
         }
+        align.output((String s) -> System.out.println(s));
     }
 
     private static Map<Usuario, Double> sortByValue(Map<Usuario, Double> unsortMap) {

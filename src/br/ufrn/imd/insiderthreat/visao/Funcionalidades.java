@@ -12,6 +12,7 @@ import br.ufrn.imd.insiderthreat.excecao.DataValidacaoInicioFimException;
 import br.ufrn.imd.insiderthreat.model.Atributos;
 import br.ufrn.imd.insiderthreat.model.Modelo;
 import br.ufrn.imd.insiderthreat.model.Usuario;
+import br.ufrn.imd.insiderthreat.util.Align;
 import br.ufrn.imd.insiderthreat.util.Arvore;
 import br.ufrn.imd.insiderthreat.util.ArvoreModelo;
 
@@ -138,15 +139,15 @@ public class Funcionalidades {
             System.out.println("Não foram encontrados usuários.");
         }else{
             System.out.println("LISTAGEM DE USUÁRIOS");
+            Align align = new Align();
+            // header
+            align.addLine("Id", "Nome", "Dominio", "Email", "Papel");
             for(ArvoreModelo arvoreUsuario : arvores){
                 Usuario usuario = ((Usuario)arvoreUsuario.getValor());
-
-                System.out.print("Id: " + usuario.getId() + " ");
-                System.out.print("Nome: " + usuario.getNome() + " ");
-                System.out.print("Dominio: " + usuario.getDominio() + " ");
-                System.out.print("Email: " + usuario.getEmail() + " ");
-                System.out.println("Papel: " + usuario.getPapel());
+                // data
+                align.addLine(usuario.getId(), usuario.getNome(), usuario.getDominio(), usuario.getEmail(), usuario.getPapel());
             }
+            align.output((String s) -> System.out.println(s));
         }
 
     }
@@ -198,12 +199,15 @@ public class Funcionalidades {
         AtividadeDao atividadesUtilitarios = new AtividadeDao();
         atividadesUtilitarios.mediaTarefasUsuarioPapel(this.arvoreConfiguracoes.getUsuariosArvore(), id);
 
-        System.out.println("Papel: " + atividadesUtilitarios.getUsuario().getPapel() + " ");
-        System.out.print("Usuário Analisado: " + atividadesUtilitarios.getUsuario().getNome() + " | ");
-        System.out.println("Quantidade de atividades: " + atividadesUtilitarios.getQuantidadeTarefasUsuario() + " ");
-        System.out.print("Quantidade de Usuários do papel: " + atividadesUtilitarios.getTotalUsuariosPapel() + " | ");
-        System.out.print("Quantidade de atividades: " + atividadesUtilitarios.getQuantidadetarefasUsuariosPapel() + " | ");
-        System.out.println("Média de atividades por usuário: " + atividadesUtilitarios.getQuantidadetarefasUsuariosPapel() / atividadesUtilitarios.getTotalUsuariosPapel());
+        Align align = new Align();
+        align.addLine("Papel:", atividadesUtilitarios.getUsuario().getPapel());
+        align.output((String s) -> System.out.println(s));
+        Align align1 = new Align();
+        align1.addLine("Usuário Analisado:", atividadesUtilitarios.getUsuario().getNome(), "Quantidade de atividades:", Integer.toString(atividadesUtilitarios.getQuantidadeTarefasUsuario()));
+        align1.output((String s) -> System.out.println(s));
+        Align align2 = new Align();
+        align2.addLine("Quantidade de Usuários do papel: ", Integer.toString(atividadesUtilitarios.getTotalUsuariosPapel()), "Quantidade de atividades: ", Integer.toString(atividadesUtilitarios.getQuantidadetarefasUsuariosPapel()), "Média de atividades por usuário: " , Integer.toString(atividadesUtilitarios.getQuantidadetarefasUsuariosPapel() / atividadesUtilitarios.getTotalUsuariosPapel()));
+        align2.output((String s) -> System.out.println(s));
     }
     
     public void buscarUsuariosPorPapel() {
@@ -224,15 +228,20 @@ public class Funcionalidades {
         if(arvores.isEmpty()){
             System.out.println("Não foram encontrados usuários que tenha atividades nesse periodo de tempo.");
         }else{
+            Align align = new Align();
+            // header
+            align.addLine("Id", "Nome", "Papel", "Quantidade Atividades");
             for(ArvoreModelo arvoreUsuario : arvores){
                 Usuario usuario = ((Usuario)arvoreUsuario.getValor());
                 int qtdAtividades = 0;
                 for(Arvore<Modelo> arvorePc : arvoreUsuario.getFilhos()){
                     qtdAtividades += arvorePc.getFilhos().size();
                 }
-                System.out.printf("Id: %s | Nome: %s | Papel: %s | Quantidade Atividades: %s \n", usuario.getId(), usuario.getNome(), usuario.getPapel(), qtdAtividades);
+                align.addLine(usuario.getId(), usuario.getNome(), usuario.getPapel(), Integer.toString(qtdAtividades));
 
             }
+
+            align.output((String s) -> System.out.println(s));
         }
 
     }
@@ -254,7 +263,7 @@ public class Funcionalidades {
         List<ArvoreModelo> arvoresFiltradas = new ArrayList<>();
         arvoresFiltradas.add(this.arvoreConfiguracoes.getUsuariosArvore().get("DTAA/" + id));
 
-        if(arvoresFiltradas.isEmpty()){
+        if(arvoresFiltradas.get(0) == null){
             System.out.println("NÃO FORAM ENCONTRADOS USUÁRIOS COM O ID INFORMADO");
         }else {
             System.out.println("HISTOGRAMA RESULTADO:\n");
