@@ -396,8 +396,7 @@ public class Funcionalidades {
 			e.printStackTrace();
 		}
     }
-    
-    // TODO: remover: apenas para testes
+
     public void imprimirArvore(Arvore<Modelo> arvore) {
     	 Modelo valor = arvore.getValor();
     	 if (valor instanceof Atividade) {
